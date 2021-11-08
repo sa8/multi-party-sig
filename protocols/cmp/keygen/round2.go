@@ -2,14 +2,14 @@ package keygen
 
 import (
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
 )
 
 var _ round.Round = (*round2)(nil)

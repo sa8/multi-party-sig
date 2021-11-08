@@ -3,12 +3,12 @@ package keygen
 import (
 	"fmt"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/Zondax/multi-party-sig/pkg/party"
 )
 
 // This round corresponds with steps 2-4 of Round 2, Figure 1 in the Frost paper:

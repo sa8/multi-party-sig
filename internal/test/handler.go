@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/protocol"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/protocol"
 )
 
 // HandlerLoop blocks until the handler has finished. The result of the execution is given by Handler.Result().

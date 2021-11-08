@@ -7,8 +7,8 @@ import (
 	"sync"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
 )
 
 // primes generates an array containing all the odd prime numbers < below

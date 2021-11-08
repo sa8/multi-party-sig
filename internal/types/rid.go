@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/params"
 )
 
 // RID represents a byte slice of whose size equals the security parameter.

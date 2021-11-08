@@ -6,10 +6,10 @@ import (
 	"crypto/rand"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/arith"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/arith"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
 )
 
 type Public struct {

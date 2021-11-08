@@ -6,11 +6,11 @@ import (
 
 	"github.com/cronokirby/safenum"
 	"github.com/fxamacker/cbor/v2"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pedersen"
 )
 
 // EmptyConfig creates an empty Config with a fixed group, ready for unmarshalling.

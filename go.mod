@@ -1,4 +1,4 @@
-module github.com/zondax/multi-party-sig
+module github.com/Zondax/multi-party-sig
 
 go 1.14
 

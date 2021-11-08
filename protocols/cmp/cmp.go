@@ -1,16 +1,16 @@
 package cmp
 
 import (
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/ecdsa"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pool"
-	"github.com/zondax/multi-party-sig/pkg/protocol"
-	"github.com/zondax/multi-party-sig/protocols/cmp/config"
-	"github.com/zondax/multi-party-sig/protocols/cmp/keygen"
-	"github.com/zondax/multi-party-sig/protocols/cmp/presign"
-	"github.com/zondax/multi-party-sig/protocols/cmp/sign"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/ecdsa"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/pkg/protocol"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/keygen"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/presign"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/sign"
 )
 
 // Config represents the stored state of a party who participated in a successful `Keygen` protocol.

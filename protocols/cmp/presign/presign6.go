@@ -4,10 +4,10 @@ import (
 	"errors"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zkelog "github.com/zondax/multi-party-sig/pkg/zk/elog"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zkelog "github.com/Zondax/multi-party-sig/pkg/zk/elog"
 )
 
 var _ round.Round = (*presign6)(nil)

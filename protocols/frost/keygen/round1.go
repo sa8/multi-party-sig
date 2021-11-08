@@ -4,14 +4,14 @@ import (
 	"crypto/rand"
 	"fmt"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
 )
 
 // This round corresponds with the steps 1-4 of Round 1, Figure 1 in the Frost paper:

@@ -5,15 +5,15 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/zondax/multi-party-sig/internal/bip32"
-	"github.com/zondax/multi-party-sig/internal/ot"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pool"
-	"github.com/zondax/multi-party-sig/pkg/protocol"
+	"github.com/Zondax/multi-party-sig/internal/bip32"
+	"github.com/Zondax/multi-party-sig/internal/ot"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/pkg/protocol"
 )
 
 // ConfigReceiver holds the results of key generation for the receiver.

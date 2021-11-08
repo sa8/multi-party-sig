@@ -1,8 +1,8 @@
 package keygen
 
 import (
-	"github.com/zondax/multi-party-sig/internal/ot"
-	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/ot"
+	"github.com/Zondax/multi-party-sig/internal/round"
 )
 
 // round3S is the third round from the Sender's perspective.

@@ -3,15 +3,15 @@ package test
 import (
 	"io"
 
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pedersen"
-	"github.com/zondax/multi-party-sig/pkg/pool"
-	"github.com/zondax/multi-party-sig/protocols/cmp/config"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pedersen"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
 )
 
 // GenerateConfig creates some random configuration for N parties with set threshold T over the group.

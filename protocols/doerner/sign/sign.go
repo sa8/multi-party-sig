@@ -3,11 +3,11 @@ package sign
 import (
 	"fmt"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pool"
-	"github.com/zondax/multi-party-sig/pkg/protocol"
-	"github.com/zondax/multi-party-sig/protocols/doerner/keygen"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/pkg/protocol"
+	"github.com/Zondax/multi-party-sig/protocols/doerner/keygen"
 )
 
 // StartSignReceiver starts the signature protocol for the receiver.

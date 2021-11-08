@@ -1,7 +1,7 @@
 package ecdsa
 
 import (
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
 )
 
 type Signature struct {

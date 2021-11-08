@@ -3,10 +3,10 @@ package presign
 import (
 	"errors"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zklog "github.com/zondax/multi-party-sig/pkg/zk/log"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zklog "github.com/Zondax/multi-party-sig/pkg/zk/log"
 )
 
 var _ round.Round = (*abort2)(nil)

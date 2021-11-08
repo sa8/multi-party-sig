@@ -1,8 +1,8 @@
 package keygen
 
 import (
-	"github.com/zondax/multi-party-sig/internal/ot"
-	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/ot"
+	"github.com/Zondax/multi-party-sig/internal/round"
 )
 
 // message3R is the message sent by the Receiver at the start of the third round.

@@ -3,9 +3,9 @@ package keygen
 import (
 	"errors"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	sch "github.com/zondax/multi-party-sig/pkg/zk/sch"
-	"github.com/zondax/multi-party-sig/protocols/cmp/config"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	sch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
 )
 
 var _ round.Round = (*round5)(nil)

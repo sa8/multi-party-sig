@@ -6,14 +6,14 @@ import (
 	"io"
 	"math"
 
-	"github.com/zondax/multi-party-sig/internal/bip32"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	"github.com/Zondax/multi-party-sig/internal/bip32"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/pkg/pedersen"
 )
 
 // Config contains all necessary cryptographic keys necessary to generate a signature.

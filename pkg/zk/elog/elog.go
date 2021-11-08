@@ -3,10 +3,10 @@ package zkelog
 import (
 	"crypto/rand"
 
-	"github.com/zondax/multi-party-sig/internal/elgamal"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/internal/elgamal"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
 )
 
 type Public struct {

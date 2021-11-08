@@ -5,10 +5,10 @@ import (
 	mrand "math/rand"
 	"testing"
 
-	"github.com/zondax/multi-party-sig/internal/test"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/internal/test"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/party"
 )
 
 func generateShares(secret curve.Scalar, ids []party.ID) map[party.ID]curve.Scalar {

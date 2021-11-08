@@ -3,9 +3,9 @@ package xor
 import (
 	"crypto/rand"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/party"
 )
 
 // Round1 can embed round.Helper which provides useful methods handling messages.

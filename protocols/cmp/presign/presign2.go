@@ -4,17 +4,17 @@ import (
 	"errors"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/elgamal"
-	"github.com/zondax/multi-party-sig/internal/mta"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/internal/types"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/paillier"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zkaffg "github.com/zondax/multi-party-sig/pkg/zk/affg"
-	zkaffp "github.com/zondax/multi-party-sig/pkg/zk/affp"
-	zkencelg "github.com/zondax/multi-party-sig/pkg/zk/encelg"
+	"github.com/Zondax/multi-party-sig/internal/elgamal"
+	"github.com/Zondax/multi-party-sig/internal/mta"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/internal/types"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/paillier"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zkaffg "github.com/Zondax/multi-party-sig/pkg/zk/affg"
+	zkaffp "github.com/Zondax/multi-party-sig/pkg/zk/affp"
+	zkencelg "github.com/Zondax/multi-party-sig/pkg/zk/encelg"
 )
 
 var _ round.Round = (*presign2)(nil)

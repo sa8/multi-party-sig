@@ -4,13 +4,13 @@ import (
 	"crypto/rand"
 	"errors"
 
-	"github.com/zondax/multi-party-sig/internal/ot"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
-	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
-	"github.com/zondax/multi-party-sig/protocols/doerner/keygen"
+	"github.com/Zondax/multi-party-sig/internal/ot"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/Zondax/multi-party-sig/protocols/doerner/keygen"
 )
 
 type message1S struct {

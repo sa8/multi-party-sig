@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/params"
 )
 
 type (

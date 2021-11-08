@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
 )
 
 // DeriveScalar uses a public point, chaining value, and index, to derive a scalar and chaining value.

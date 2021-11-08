@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/params"
 	"github.com/zeebo/blake3"
 )
 

@@ -7,9 +7,9 @@ import (
 	"io"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/pkg/math/arith"
-	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/pkg/math/arith"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
 )
 
 var (

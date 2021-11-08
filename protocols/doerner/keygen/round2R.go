@@ -3,12 +3,12 @@ package keygen
 import (
 	"errors"
 
-	"github.com/zondax/multi-party-sig/internal/ot"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/hash"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/Zondax/multi-party-sig/internal/ot"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
 )
 
 // message2R is the message sent by the Receiver at the start of the second round.

@@ -3,11 +3,11 @@ package presign
 import (
 	"errors"
 
-	"github.com/zondax/multi-party-sig/internal/round"
-	"github.com/zondax/multi-party-sig/pkg/math/curve"
-	"github.com/zondax/multi-party-sig/pkg/party"
-	zkelog "github.com/zondax/multi-party-sig/pkg/zk/elog"
-	zklogstar "github.com/zondax/multi-party-sig/pkg/zk/logstar"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/party"
+	zkelog "github.com/Zondax/multi-party-sig/pkg/zk/elog"
+	zklogstar "github.com/Zondax/multi-party-sig/pkg/zk/logstar"
 )
 
 var _ round.Round = (*presign5)(nil)

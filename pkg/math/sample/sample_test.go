@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/cronokirby/safenum"
-	"github.com/zondax/multi-party-sig/internal/params"
-	"github.com/zondax/multi-party-sig/pkg/pool"
+	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/Zondax/multi-party-sig/pkg/pool"
 )
 
 func TestModN(t *testing.T) {
