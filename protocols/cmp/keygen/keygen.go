@@ -4,14 +4,14 @@ import (
 	"crypto/rand"
 	"fmt"
 
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/polynomial"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/sample"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/pool"
-	"github.com/taurusgroup/multi-party-sig/pkg/protocol"
-	"github.com/taurusgroup/multi-party-sig/protocols/cmp/config"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/pool"
+	"github.com/zondax/multi-party-sig/pkg/protocol"
+	"github.com/zondax/multi-party-sig/protocols/cmp/config"
 )
 
 const Rounds round.Number = 5

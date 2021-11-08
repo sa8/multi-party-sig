@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/taurusgroup/multi-party-sig/internal/types"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/internal/types"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/party"
 )
 
 type PreSignature struct {

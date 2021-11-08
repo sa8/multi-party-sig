@@ -4,16 +4,16 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/internal/types"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/polynomial"
-	"github.com/taurusgroup/multi-party-sig/pkg/paillier"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/pedersen"
-	"github.com/taurusgroup/multi-party-sig/pkg/pool"
-	"github.com/taurusgroup/multi-party-sig/pkg/protocol"
-	"github.com/taurusgroup/multi-party-sig/protocols/cmp/config"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/internal/types"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/zondax/multi-party-sig/pkg/paillier"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	"github.com/zondax/multi-party-sig/pkg/pool"
+	"github.com/zondax/multi-party-sig/pkg/protocol"
+	"github.com/zondax/multi-party-sig/protocols/cmp/config"
 )
 
 // protocolSignID for the "3 round" variant using echo broadcast.

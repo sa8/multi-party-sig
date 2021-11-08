@@ -6,10 +6,10 @@ import (
 	"github.com/cronokirby/safenum"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/internal/test"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/pool"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/internal/test"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/pool"
 )
 
 type TestRule struct {

@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/taurusgroup/multi-party-sig/internal/bip32"
-	"github.com/taurusgroup/multi-party-sig/internal/params"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/taproot"
+	"github.com/zondax/multi-party-sig/internal/bip32"
+	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/taproot"
 )
 
 // Config contains all the information produced after key generation, from the perspective

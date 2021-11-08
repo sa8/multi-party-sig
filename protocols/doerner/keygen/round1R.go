@@ -3,13 +3,13 @@ package keygen
 import (
 	"crypto/rand"
 
-	"github.com/taurusgroup/multi-party-sig/internal/ot"
-	"github.com/taurusgroup/multi-party-sig/internal/params"
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/pkg/hash"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/sample"
-	zksch "github.com/taurusgroup/multi-party-sig/pkg/zk/sch"
+	"github.com/zondax/multi-party-sig/internal/ot"
+	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/pkg/hash"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
 )
 
 // message1R is the message we send in this round.

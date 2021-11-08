@@ -1,12 +1,12 @@
 package frost
 
 import (
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/protocol"
-	"github.com/taurusgroup/multi-party-sig/protocols/frost/keygen"
-	"github.com/taurusgroup/multi-party-sig/protocols/frost/sign"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/protocol"
+	"github.com/zondax/multi-party-sig/protocols/frost/keygen"
+	"github.com/zondax/multi-party-sig/protocols/frost/sign"
 )
 
 type (

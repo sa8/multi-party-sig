@@ -5,17 +5,17 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/taurusgroup/multi-party-sig/internal/round"
-	"github.com/taurusgroup/multi-party-sig/internal/types"
-	"github.com/taurusgroup/multi-party-sig/pkg/hash"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/polynomial"
-	"github.com/taurusgroup/multi-party-sig/pkg/paillier"
-	"github.com/taurusgroup/multi-party-sig/pkg/party"
-	"github.com/taurusgroup/multi-party-sig/pkg/pedersen"
-	zkmod "github.com/taurusgroup/multi-party-sig/pkg/zk/mod"
-	zkprm "github.com/taurusgroup/multi-party-sig/pkg/zk/prm"
-	zksch "github.com/taurusgroup/multi-party-sig/pkg/zk/sch"
+	"github.com/zondax/multi-party-sig/internal/round"
+	"github.com/zondax/multi-party-sig/internal/types"
+	"github.com/zondax/multi-party-sig/pkg/hash"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/math/polynomial"
+	"github.com/zondax/multi-party-sig/pkg/paillier"
+	"github.com/zondax/multi-party-sig/pkg/party"
+	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	zkmod "github.com/zondax/multi-party-sig/pkg/zk/mod"
+	zkprm "github.com/zondax/multi-party-sig/pkg/zk/prm"
+	zksch "github.com/zondax/multi-party-sig/pkg/zk/sch"
 )
 
 var _ round.Round = (*round3)(nil)

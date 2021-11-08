@@ -4,13 +4,13 @@ import (
 	"crypto/rand"
 
 	"github.com/cronokirby/safenum"
-	"github.com/taurusgroup/multi-party-sig/pkg/hash"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/curve"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/sample"
-	"github.com/taurusgroup/multi-party-sig/pkg/paillier"
-	"github.com/taurusgroup/multi-party-sig/pkg/pedersen"
-	zkaffg "github.com/taurusgroup/multi-party-sig/pkg/zk/affg"
-	zkaffp "github.com/taurusgroup/multi-party-sig/pkg/zk/affp"
+	"github.com/zondax/multi-party-sig/pkg/hash"
+	"github.com/zondax/multi-party-sig/pkg/math/curve"
+	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	"github.com/zondax/multi-party-sig/pkg/paillier"
+	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	zkaffg "github.com/zondax/multi-party-sig/pkg/zk/affg"
+	zkaffp "github.com/zondax/multi-party-sig/pkg/zk/affp"
 )
 
 // ProveAffG returns the necessary messages for the receiver of the

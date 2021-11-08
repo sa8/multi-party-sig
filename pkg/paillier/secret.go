@@ -6,11 +6,11 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/taurusgroup/multi-party-sig/internal/params"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/arith"
-	"github.com/taurusgroup/multi-party-sig/pkg/math/sample"
-	"github.com/taurusgroup/multi-party-sig/pkg/pedersen"
-	"github.com/taurusgroup/multi-party-sig/pkg/pool"
+	"github.com/zondax/multi-party-sig/internal/params"
+	"github.com/zondax/multi-party-sig/pkg/math/arith"
+	"github.com/zondax/multi-party-sig/pkg/math/sample"
+	"github.com/zondax/multi-party-sig/pkg/pedersen"
+	"github.com/zondax/multi-party-sig/pkg/pool"
 )
 
 var (
