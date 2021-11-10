@@ -29,6 +29,16 @@ func checkOutput(t *testing.T, rounds []round.Session, public curve.Point, m []b
 	}
 }
 
+func apply_tweak_to_publicKey(t *testing.T, public curve.Point, tweak []byte) curve.Point{
+    group := curve.Secp256k1{}
+    s_tweak := group.NewScalar().SetNat(new(safenum.Nat).SetBytes(tweak))
+    p_tweak := s_tweak.ActOnBase()
+
+    Y_tweak := public.Add(p_tweak)
+    return Y_tweak
+}
+
+
 func TestSign(t *testing.T) {
 	group := curve.Secp256k1{}
 
@@ -53,7 +63,7 @@ func TestSign(t *testing.T) {
 	for _, id := range partyIDs {
 		verificationShares[id] = privateShares[id].ActOnBase()
 	}
-
+    tweak, _ := sample.Scalar(rand.Reader, group).MarshalBinary()
 	var newPublicKey curve.Point
 	rounds := make([]round.Session, 0, N)
 	for _, id := range partyIDs {
@@ -69,7 +79,6 @@ func TestSign(t *testing.T) {
 		if newPublicKey == nil {
 			newPublicKey = result.PublicKey
 		}
-		var tweak []byte
 		r, err := StartSignCommonTweak(false, result, partyIDs, steak, tweak)(nil)
 		require.NoError(t, err, "round creation should not result in an error")
 		rounds = append(rounds, r)
@@ -82,11 +91,11 @@ func TestSign(t *testing.T) {
 			break
 		}
 	}
-
-	checkOutput(t, rounds, newPublicKey, steak)
+    tweaked_pubkey := apply_tweak_to_publicKey(t, newPublicKey, tweak)
+	checkOutput(t, rounds, tweaked_pubkey, steak)
 }
 
-func apply_tweak_to_publicKey(t *testing.T, public []byte, tweak []byte) []byte{
+func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
     group := curve.Secp256k1{}
     s_tweak := group.NewScalar().SetNat(new(safenum.Nat).SetBytes(tweak))
     p_tweak := s_tweak.ActOnBase()
@@ -96,12 +105,12 @@ func apply_tweak_to_publicKey(t *testing.T, public []byte, tweak []byte) []byte{
 
     Y_tweak := P.Add(p_tweak)
     YSecp := Y_tweak.(*curve.Secp256k1Point)
-    //FIXME: do we need to flip if YSecp does not have even Y??
-    //If so: flip s_tweak??
-//     if !YSecp.HasEvenY() {
-//         Y_tweak = P.Sub(p_tweak)
-//         YSecp = Y_tweak.(*curve.Secp256k1Point)
-//     }
+    if !YSecp.HasEvenY() {
+        s_tweak.Negate()
+        p_tweak := s_tweak.ActOnBase()
+        Y_tweak = P.Negate().Add(p_tweak)
+        YSecp = Y_tweak.(*curve.Secp256k1Point)
+    }
     PBytes := YSecp.XBytes()
     return PBytes
 }
@@ -186,6 +195,6 @@ func TestSignTaproot(t *testing.T) {
 			break
 		}
 	}
-    tweaked_pubkey := apply_tweak_to_publicKey(t, newPublicKey, tweak)
+    tweaked_pubkey := apply_tweak_to_publicKeyTaproot(t, newPublicKey, tweak)
 	checkOutputTaproot(t, rounds, tweaked_pubkey, steak)
 }

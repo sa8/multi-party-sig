@@ -117,6 +117,11 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	var Y_tweak curve.Point
     var flipped bool
     flipped = false
+    s_tweak = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(r.T[:]))
+    p_tweak := s_tweak.ActOnBase()
+
+    Y_tweak = r.Y.Add(p_tweak)
+    YSecp := Y_tweak.(*curve.Secp256k1Point)
 	if r.taproot {
 		// BIP-340 adjustment: We need R to have an even y coordinate. This means
 		// conditionally negating k = ∑ᵢ (dᵢ + (eᵢ ρᵢ)), which we can accomplish
@@ -130,11 +135,6 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 				RShares[l] = RShares[l].Negate()
 			}
 		}
-        s_tweak = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(r.T[:]))
-        p_tweak := s_tweak.ActOnBase()
-
-        Y_tweak = r.Y.Add(p_tweak)
-        YSecp := Y_tweak.(*curve.Secp256k1Point)
         //FIXME: do we need to flip if YSecp does not have even Y??
         //If so: flip s_tweak??
         if !YSecp.HasEvenY() {
@@ -154,10 +154,10 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		c = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(cHash))
 		s_tweak = s_tweak.Mul(c)
 	} else {
-	    //FIXME: what to do with the tweak in this case??
 		cHash := hash.New()
-		_ = cHash.WriteAny(R, r.Y, r.M)
+		_ = cHash.WriteAny(R, Y_tweak, r.M)
 		c = sample.Scalar(cHash.Digest(), r.Group())
+		s_tweak = s_tweak.Mul(c)
 	}
 
 	// Lambdas[i] = λᵢ

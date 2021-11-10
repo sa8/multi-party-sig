@@ -71,6 +71,8 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 	//
 	// Note that step 7.a is an artifact of having a signing authority. In our case,
 	// we've already computed everything that step computes.
+
+	//If the tweak was flipped, we need to handle the verification of the shares accordingly by flipping too
 	var expected curve.Point
     if r.flipped {
         expected = r.c.Act(r.Lambda[from].Act(r.YShares[from].Negate())).Add(r.RShares[from])
@@ -130,8 +132,7 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 			R: r.R,
 			z: z,
 		}
-
-		if !sig.Verify(r.Y, r.M) {
+		if !sig.Verify(r.Y_tweak, r.M) {
 			return r.AbortRound(fmt.Errorf("generated signature failed to verify")), nil
 		}
 

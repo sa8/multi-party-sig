@@ -2,7 +2,6 @@ package sign_with_tweak
 
 import (
 	"io"
-
 	"github.com/Zondax/multi-party-sig/pkg/hash"
 	"github.com/Zondax/multi-party-sig/pkg/math/curve"
 	"github.com/Zondax/multi-party-sig/pkg/math/sample"
@@ -47,7 +46,6 @@ type Signature struct {
 // Note that m is the hash of a message, and not the message itself.
 func (sig Signature) Verify(public curve.Point, m []byte) bool {
 	group := public.Curve()
-
 	challengeHash := hash.New()
 	_ = challengeHash.WriteAny(sig.R, public, messageHash(m))
 	challenge := sample.Scalar(challengeHash.Digest(), group)
