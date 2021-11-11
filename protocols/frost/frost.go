@@ -7,6 +7,7 @@ import (
 	"github.com/Zondax/multi-party-sig/pkg/protocol"
 	"github.com/Zondax/multi-party-sig/protocols/frost/keygen"
 	"github.com/Zondax/multi-party-sig/protocols/frost/sign"
+	"github.com/Zondax/multi-party-sig/protocols/frost/sign_with_tweak"
 )
 
 type (
@@ -129,4 +130,30 @@ func SignTaproot(config *TaprootConfig, signers []party.ID, messageHash []byte) 
 		VerificationShares: party.NewPointMap(genericVerificationShares),
 	}
 	return sign.StartSignCommon(true, normalResult, signers, messageHash)
+}
+
+// SignTaprootWithTweak is like SignTaproot, but will add the tweak to the public key and signature
+//
+// This needs to result of a Taproot compatible key generation phase, naturally.
+//
+// See: https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki
+func SignTaprootWithTweak(config *TaprootConfig, signers []party.ID, messageHash []byte, tweak []byte) protocol.StartFunc {
+	publicKey, err := curve.Secp256k1{}.LiftX(config.PublicKey)
+	if err != nil {
+		return func([]byte) (round.Session, error) {
+			return nil, err
+		}
+	}
+	genericVerificationShares := make(map[party.ID]curve.Point)
+	for k, v := range config.VerificationShares {
+		genericVerificationShares[k] = v
+	}
+	normalResult := &keygen.Config{
+		ID:                 config.ID,
+		Threshold:          config.Threshold,
+		PrivateShare:       config.PrivateShare,
+		PublicKey:          publicKey,
+		VerificationShares: party.NewPointMap(genericVerificationShares),
+	}
+	return sign_with_tweak.StartSignCommonTweak(true, normalResult, signers, messageHash, tweak)
 }
