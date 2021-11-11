@@ -132,7 +132,7 @@ func SignTaproot(config *TaprootConfig, signers []party.ID, messageHash []byte) 
 	return sign.StartSignCommon(true, normalResult, signers, messageHash)
 }
 
-// SignTaproot is like Sign, but will generate a Taproot / BIP-340 compatible signature.
+// SignTaprootWithTweak is like SignTaproot, but will add the tweak to the public key and signature
 //
 // This needs to result of a Taproot compatible key generation phase, naturally.
 //
