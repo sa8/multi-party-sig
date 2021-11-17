@@ -138,7 +138,12 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
         //FIXME: do we need to flip if YSecp does not have even Y??
         //If so: flip s_tweak??
         if !YSecp.HasEvenY() {
-            r.s_i.Negate()
+            //negate R again because we will negate the complete signature later
+            r.d_i.Negate()
+            r.e_i.Negate()
+            for _, l := range r.PartyIDs() {
+                RShares[l] = RShares[l].Negate()
+            }
             s_tweak.Negate()
             p_tweak := s_tweak.ActOnBase()
             Y_tweak = r.Y.Negate().Add(p_tweak)

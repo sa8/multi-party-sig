@@ -73,12 +73,7 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 	// we've already computed everything that step computes.
 
 	//If the tweak was flipped, we need to handle the verification of the shares accordingly by flipping too
-	var expected curve.Point
-    if r.flipped {
-        expected = r.c.Act(r.Lambda[from].Act(r.YShares[from].Negate())).Add(r.RShares[from])
-    }else {
-        expected = r.c.Act(r.Lambda[from].Act(r.YShares[from])).Add(r.RShares[from])
-    }
+	expected := r.c.Act(r.Lambda[from].Act(r.YShares[from])).Add(r.RShares[from])
 
 	actual := body.Z_i.ActOnBase()
 
@@ -106,7 +101,9 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	for _, z_l := range r.z {
 		z.Add(z_l)
 	}
-
+    if r.flipped {
+        z.Negate()
+    }
     //add tweak to signature
     z.Add(r.s_tweak)
 
