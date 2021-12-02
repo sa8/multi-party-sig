@@ -58,6 +58,15 @@ func KeygenTaproot(selfID party.ID, participants []party.ID, threshold int) prot
 	return keygen.StartKeygenCommon(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
 }
 
+// KeygenTaprootGennaro is like Keygen Taproot, but uses DKG algorithm based on Gennaro et al's work
+//
+// This will also return TaprootResult instead of Result, at the end of the protocol.
+//
+// See: https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#specification
+func KeygenTaprootGennaro(selfID party.ID, participants []party.ID, threshold int) protocol.StartFunc {
+	return keygen.StartKeygenCommon(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
+}
+
 // Refresh
 func Refresh(config *Config, participants []party.ID) protocol.StartFunc {
 	return keygen.StartKeygenCommon(false, config.Curve(), participants, config.Threshold, config.ID, config.PrivateShare, config.PublicKey, config.VerificationShares.Points)
