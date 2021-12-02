@@ -2,16 +2,12 @@ package keygen_gennaro
 
 import (
 	"crypto/rand"
-	"fmt"
 
 	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/types"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
 	"github.com/Zondax/multi-party-sig/pkg/math/curve"
 	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
 	"github.com/Zondax/multi-party-sig/pkg/math/sample"
 	"github.com/Zondax/multi-party-sig/pkg/party"
-	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
 )
 
 // This round corresponds with the steps 1-4 of Round 1, Figure 1 in the Frost paper:
@@ -66,77 +62,28 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// and uses these values as coefficients to define a degree t polynomial
 	// fᵢ(x) = ∑ⱼ₌₀ᵗ⁻¹ aᵢⱼ xʲ"
 	//
-	// Note: I've adjusted the thresholds in this quote to reflect our convention
-	// that t + 1 participants are needed to create a signature.
 
 	// Refresh: Instead of creating a new secret, instead use 0, so that our result doesn't change.
 	a_i0 := group.NewScalar()
-	a_i0_times_G := group.NewPoint()
 	if !r.refresh {
 		a_i0 = sample.Scalar(rand.Reader, r.Group())
-		a_i0_times_G = a_i0.ActOnBase()
 	}
 	f_i := polynomial.NewPolynomial(r.Group(), r.threshold, a_i0)
 
-	// 2. "Every Pᵢ computes a proof of knowledge to the corresponding secret aᵢ₀
-	// by calculating σᵢ = (Rᵢ, μᵢ), such that:
-	//
-	//   k <-$ Z/(q)
-	//   Rᵢ = k * G
-	//   cᵢ = H(i, ctx, aᵢ₀ • G, Rᵢ)
-	//   μᵢ = k + aᵢ₀ cᵢ
-	//
-	// with ctx being a context string to prevent replay attacks"
-
-	// We essentially follow this, although the order of hashing ends up being slightly
-	// different.
-	// At this point, we've already hashed context inside of helper, so we just
-	// add in our own ID, and then we're good to go.
-
-	// Refresh: Don't create a proof.
-	var Sigma_i *zksch.Proof
-	if !r.refresh {
-		Sigma_i = zksch.NewProof(r.Helper.HashForID(r.SelfID()), a_i0_times_G, a_i0, nil)
-	}
-
-	// 3. "Every participant Pᵢ computes a public comment Φᵢ = <ϕᵢ₀, ..., ϕᵢₜ>
-	// where ϕᵢⱼ = aᵢⱼ * G."
-	//
-	// Note: I've once again adjusted the threshold indices, I've also taken
-	// the liberty of renaming "Cᵢ" to "Φᵢ" so that we can later do Phi_i[j]
-	// for each individual commitment.
-
-	// This method conveniently calculates all of that for us
-	// Phi_i = Φᵢ
-	Phi_i := polynomial.NewPolynomialExponent(f_i)
-
-	// c_i is our contribution to the chaining key
-	c_i, err := types.NewRID(rand.Reader)
-	if err != nil {
-		return r, fmt.Errorf("failed to sample ChainKey")
-	}
-	commitment, decommitment, err := r.HashForID(r.SelfID()).Commit(c_i)
-	if err != nil {
-		return r, fmt.Errorf("failed to commit to chain key")
-	}
-
-	// 4. "Every Pᵢ broadcasts Φᵢ, σᵢ to all other participants
-	err = r.BroadcastMessage(out, &broadcast2{
-		Phi_i:      Phi_i,
-		Sigma_i:    Sigma_i,
-		Commitment: commitment,
-	})
-	if err != nil {
-		return r, err
-	}
-
+	// 2. "Every P_i computes s_{i,j} = f_i(j)"
+    for _, l := range r.OtherPartyIDs() {
+        if err := r.SendMessage(out, &message2{
+            F_li: f_i.Evaluate(l.Scalar(r.Group())),
+        }, l); err != nil {
+            return r, err
+        }
+    }
+    selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
+    //3. Every participant computes ph_i == <f_ij G>
 	return &round2{
 		round1:               r,
 		f_i:                  f_i,
-		Phi:                  map[party.ID]*polynomial.Exponent{r.SelfID(): Phi_i},
-		ChainKeys:            map[party.ID]types.RID{r.SelfID(): c_i},
-		ChainKeyDecommitment: decommitment,
-		ChainKeyCommitments:  make(map[party.ID]hash.Commitment),
+	    shareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
 	}, nil
 }
 
