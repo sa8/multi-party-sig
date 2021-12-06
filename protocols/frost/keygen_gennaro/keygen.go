@@ -14,7 +14,7 @@ const (
 	protocolID        = "frost/keygen-threshold"
 	protocolIDTaproot = "frost/keygen-threshold-taproot"
 	// This protocol has 3 concrete rounds.
-	protocolRounds round.Number = 3
+	protocolRounds round.Number = 5
 )
 
 // These assert that our rounds implement the round.Round interface.
@@ -22,6 +22,8 @@ var (
 	_ round.Round = (*round1)(nil)
 	_ round.Round = (*round2)(nil)
 	_ round.Round = (*round3)(nil)
+    _ round.Round = (*round4)(nil)
+	_ round.Round = (*round5)(nil)
 )
 
 func StartKeygenCommonGennaro(taproot bool, group curve.Curve, participants []party.ID, threshold int, selfID party.ID, privateShare curve.Scalar, publicKey curve.Point, verificationShares map[party.ID]curve.Point) protocol.StartFunc {

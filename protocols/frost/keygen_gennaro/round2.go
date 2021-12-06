@@ -39,9 +39,14 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if err != nil {
 		return r, err
 	}
+
+	var cmp []complaint
+
+
 	return &round3{
 		round2:    r,
 		Phi:  map[party.ID]*polynomial.Exponent{r.SelfID(): Phi_i},
+		mps: cmp,
 	}, nil
 }
 
