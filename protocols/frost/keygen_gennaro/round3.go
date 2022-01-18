@@ -9,14 +9,14 @@ import (
 	"github.com/Zondax/multi-party-sig/pkg/party"
 )
 
+//This broadcast message are the VSS shares for each participant to verify other participants.
 type broadcast3 struct {
 	round.ReliableBroadcastContent
 	// Phi_i is the commitment to the polynomial that this participant generated.
 	Phi_i *polynomial.Exponent
 }
 
-// This round corresponds with steps 2-4 of Round 2, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
+//This round combines a verification of the secret shares and the computation of the final public key.
 type round3 struct {
 	*round2
 
@@ -56,15 +56,13 @@ func (r *round3) VerifyMessage(msg round.Message) error {
 }
 
 // Finalize implements round.Round.
+// In this round, we finalize the DKG by computing the long-lived private share and the threshold public key.
 func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
-
-	// These steps come from Figure 1, Round 2 of the Frost paper
 
 	// 3. "Each P_i calculates their long-lived private signing share by computing
 	// sᵢ = ∑ₗ₌₁ⁿ fₗ(i), stores s_i securely, and deletes each fₗ(i)"
 	for l, f_li := range r.shareFrom {
 		r.privateShare.Add(f_li)
-		// TODO: Maybe actually clear this in a better way
 		delete(r.shareFrom, l)
 	}
 

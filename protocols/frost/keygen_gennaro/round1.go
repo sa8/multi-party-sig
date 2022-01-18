@@ -10,8 +10,8 @@ import (
 	"github.com/Zondax/multi-party-sig/pkg/party"
 )
 
-// This round corresponds with the steps 1-4 of Round 1, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
+//This round corresponds to round1 of Gennaro's DKG algorithm.
+//All participants are expected to share their Shamir-shares in private to all other participants.
 type round1 struct {
 	*round.Helper
 	// taproot indicates whether or not to make taproot compatible keys.
@@ -71,6 +71,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	f_i := polynomial.NewPolynomial(r.Group(), r.threshold, a_i0)
 
 	// 2. "Every P_i computes s_{i,j} = f_i(j)"
+	// Every participant shares this in private to all other participants.
     for _, l := range r.OtherPartyIDs() {
         if err := r.SendMessage(out, &message2{
             F_li: f_i.Evaluate(l.Scalar(r.Group())),
@@ -79,7 +80,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
         }
     }
     selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
-    //3. Every participant computes ph_i == <f_ij G>
+    //We go to round2 after this, where we collect all privately shared pieces of the other participants.
 	return &round2{
 		round1:               r,
 		f_i:                  f_i,
