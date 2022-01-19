@@ -14,6 +14,9 @@ import (
 //
 // The big difference, once again, stems from their being no signing authority.
 // Instead, each participant calculates the signature on their own.
+
+//The other difference with FROST is that we handle the tweak value in the final signature calulation too:
+//A valid signature looks like (R, s = r + c*s + c*s_tweak), where s is the distributed threshold secret and R the shared commitment.
 type round3 struct {
 	*round2
 	// R is the group commitment, and the first part of the consortium signature
@@ -33,11 +36,11 @@ type round3 struct {
 	// Lambda[l] = λₗ
 	Lambda map[party.ID]curve.Scalar
 
-	//Tweak scalar
+	//Tweak scalar (already multiplied with the challenge)
 	s_tweak curve.Scalar
 	//Tweaked pubkey
 	Y_tweak curve.Point
-	//did we flip the tweaked_pubkey??
+	//did we flip the tweaked_pubkey: if so we also need to flip the signature
 	flipped bool
 }
 
@@ -101,11 +104,12 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	for _, z_l := range r.z {
 		z.Add(z_l)
 	}
-    if r.flipped {
-        z.Negate()
-    }
-    //add tweak to signature
-    z.Add(r.s_tweak)
+	// Flip the full signature if we had to flip the public key in round2
+	if r.flipped {
+		z.Negate()
+	}
+	//add the tweak once to signature
+	z.Add(r.s_tweak)
 
 	// The format of our signature depends on using taproot, naturally
 	if r.taproot {
@@ -116,7 +120,7 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 			return r, err
 		}
 		sig = append(sig, zBytes[:]...)
-
+		//We check the signature on the tweaked key, not the original one
 		taprootPub := taproot.PublicKey(r.Y_tweak.(*curve.Secp256k1Point).XBytes())
 
 		if !taprootPub.Verify(sig, r.M) {

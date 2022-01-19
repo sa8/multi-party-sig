@@ -105,6 +105,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		rho[l] = sample.Scalar(rhoHash.Digest(), r.Group())
 	}
 
+    //In this step, we compute the shared commitment value R
 	R := r.Group().NewPoint()
 	RShares := make(map[party.ID]curve.Point)
 	for _, l := range r.PartyIDs() {
@@ -112,16 +113,35 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		RShares[l] = RShares[l].Add(r.D[l])
 		R = R.Add(RShares[l])
 	}
+
+	//We define a couple of variables now to deal with the tweak
+	//We need to handle the tweak with care, since Taproot keys have only Y-even public keys and commitments
+	//We need to remember if we need to apply a sign-flip, because in the final signature calculation we might need to do that.
+	var flipped bool
+	flipped = false
+
+	//c is the challenge scalar
 	var c curve.Scalar
+
+	//s is the tweaked "secret" scalar, belonging for the tweaked public key
+	//Note that this is just the tweak bytes, but mapped to a scalar.
 	var s_tweak curve.Scalar
+
+	//Y is the tweaked public key (so the addition of the public key and the tweak point)
 	var Y_tweak curve.Point
-    var flipped bool
-    flipped = false
+
+    //We set the tweaked secret to the bytes of the tweak value
     s_tweak = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(r.T[:]))
+
+    //We construct the tweak point by acting on the base point.
     p_tweak := s_tweak.ActOnBase()
 
+    //We set the tweaked public key as the addition of the pubkey and the tweak point
     Y_tweak = r.Y.Add(p_tweak)
     YSecp := Y_tweak.(*curve.Secp256k1Point)
+
+    //We now need to check if the tweaked public key satisfies the Taproot even-Y rule
+
 	if r.taproot {
 		// BIP-340 adjustment: We need R to have an even y coordinate. This means
 		// conditionally negating k = ∑ᵢ (dᵢ + (eᵢ ρᵢ)), which we can accomplish
@@ -135,8 +155,11 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 				RShares[l] = RShares[l].Negate()
 			}
 		}
-        //FIXME: do we need to flip if YSecp does not have even Y??
-        //If so: flip s_tweak??
+        //If the tweaked pubkey does not have an even Y, we need to flip it's sign
+        //We do this by negating (again) R, the tweak scalar, negating the pubkey Y and adding the negated scalar point again:
+        //-Y_tweak = -(Y + P_tweak) = -Y - P_tweak
+        //We set the boolean flipped to true.
+        //Note that we double flip R, but that is because we later fully flip the signature to deal with the signflip correctly
         if !YSecp.HasEvenY() {
             //negate R again because we will negate the complete signature later
             r.d_i.Negate()
@@ -157,6 +180,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		RBytes := RSecp.XBytes()
 		cHash := taproot.TaggedHash("BIP0340/challenge", RBytes, PBytes, r.M)
 		c = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(cHash))
+		//We multiply the tweaked scalar with the challenge scalar too, as we need to add this to the signature in round 3
 		s_tweak = s_tweak.Mul(c)
 	} else {
 		cHash := hash.New()

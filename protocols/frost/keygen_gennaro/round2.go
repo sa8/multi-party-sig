@@ -14,21 +14,20 @@ type message2 struct {
 	F_li curve.Scalar
 }
 
-// This round corresponds with steps 5 of Round 1, 1 of Round 2, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
+//This round corresponds to round 2 in Gennaro's DKG algorithm.
 type round2 struct {
 	*round1
 	// f_i is the polynomial this participant uses to share their contribution to
 	// the secret
 	f_i *polynomial.Polynomial
     // shareFrom is the secret share sent to us by a given party, including ourselves.
-    //
-    // shareFrom[l] corresponds to fₗ(i) in the Frost paper, with i our own ID.
     shareFrom map[party.ID]curve.Scalar
 }
 
 func (round2) Number() round.Number { return 2 }
 
+//When we have collected all secret shares sent to us, we finalize by computing the VSS parts and broadcasting that to everyone.participant
+//This allows to do a verification in round 3.
 func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
     Phi_i := polynomial.NewPolynomialExponent(r.f_i)
 

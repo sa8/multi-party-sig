@@ -24,6 +24,7 @@ var (
 	_ round.Round = (*round3)(nil)
 )
 
+// This starts a DKG based on Gennaro's protocol.
 func StartKeygenCommonGennaro(taproot bool, group curve.Curve, participants []party.ID, threshold int, selfID party.ID, privateShare curve.Scalar, publicKey curve.Point, verificationShares map[party.ID]curve.Point) protocol.StartFunc {
 	return func(sessionID []byte) (round.Session, error) {
 		info := round.Info{

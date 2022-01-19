@@ -19,6 +19,7 @@ import (
 //
 // There are also differences corresponding to the lack of a signing authority,
 // namely that these commitments are broadcast, instead of stored with the authority.
+
 type round1 struct {
 	*round.Helper
 	// taproot indicates whether or not we need to generate Taproot / BIP-340 signatures.
@@ -28,7 +29,7 @@ type round1 struct {
 	// we also return a taproot.Signature instead a generic signature.
 	taproot bool
 
-	// T is the bytes of the tweak
+	// T are the bytes of the tweak value
 	T tweakBytes
 	// M is the hash of the message we're signing.
 	//

@@ -17,6 +17,7 @@ const (
 	protocolRounds round.Number = 3
 )
 
+//This is like normal FROST signing, but additionaly stores a (Taproot) tweak value to tweak the signature correctly.
 func StartSignCommonTweak(taproot bool, result *keygen.Config, signers []party.ID, messageHash []byte, tweak []byte) protocol.StartFunc {
 	return func(sessionID []byte) (round.Session, error) {
 		info := round.Info{

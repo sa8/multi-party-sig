@@ -6,6 +6,7 @@ import (
 	"github.com/Zondax/multi-party-sig/pkg/party"
 	"github.com/Zondax/multi-party-sig/pkg/protocol"
 	"github.com/Zondax/multi-party-sig/protocols/frost/keygen"
+	"github.com/Zondax/multi-party-sig/protocols/frost/keygen_gennaro"
 	"github.com/Zondax/multi-party-sig/protocols/frost/sign"
 	"github.com/Zondax/multi-party-sig/protocols/frost/sign_with_tweak"
 )
@@ -61,10 +62,8 @@ func KeygenTaproot(selfID party.ID, participants []party.ID, threshold int) prot
 // KeygenTaprootGennaro is like Keygen Taproot, but uses DKG algorithm based on Gennaro et al's work
 //
 // This will also return TaprootResult instead of Result, at the end of the protocol.
-//
-// See: https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#specification
 func KeygenTaprootGennaro(selfID party.ID, participants []party.ID, threshold int) protocol.StartFunc {
-	return keygen.StartKeygenCommon(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
+	return keygen_gennaro.StartKeygenCommonGennaro(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
 }
 
 // Refresh
