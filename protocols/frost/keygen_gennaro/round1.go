@@ -64,6 +64,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	//
 
 	// Refresh: Instead of creating a new secret, instead use 0, so that our result doesn't change.
+	// In practice, we refresh at every new DKG.
 	a_i0 := group.NewScalar()
 	if !r.refresh {
 		a_i0 = sample.Scalar(rand.Reader, r.Group())
@@ -72,19 +73,19 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 
 	// 2. "Every P_i computes s_{i,j} = f_i(j)"
 	// Every participant shares this in private to all other participants.
-    for _, l := range r.OtherPartyIDs() {
-        if err := r.SendMessage(out, &message2{
-            F_li: f_i.Evaluate(l.Scalar(r.Group())),
-        }, l); err != nil {
-            return r, err
-        }
-    }
-    selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
-    //We go to round2 after this, where we collect all privately shared pieces of the other participants.
+	for _, l := range r.OtherPartyIDs() {
+		if err := r.SendMessage(out, &message2{
+			F_li: f_i.Evaluate(l.Scalar(r.Group())),
+		}, l); err != nil {
+			return r, err
+		}
+	}
+	selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
+	//We go to round2 after this, where we collect all privately shared pieces of the other participants.
 	return &round2{
-		round1:               r,
-		f_i:                  f_i,
-	    shareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
+		round1:    r,
+		f_i:       f_i,
+		shareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
 	}, nil
 }
 
