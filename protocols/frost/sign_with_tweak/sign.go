@@ -3,10 +3,10 @@ package sign_with_tweak
 import (
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/protocol"
-	"github.com/Zondax/multi-party-sig/protocols/frost/keygen"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/protocol"
+	"github.com/sa8/multi-party-sig/protocols/frost/keygen"
 )
 
 const (
@@ -45,7 +45,7 @@ func StartSignCommonTweak(taproot bool, result *keygen.Config, signers []party.I
 			Y:       result.PublicKey,
 			YShares: result.VerificationShares.Points,
 			s_i:     result.PrivateShare,
-			T:  tweak,
+			T:       tweak,
 		}, nil
 	}
 }
