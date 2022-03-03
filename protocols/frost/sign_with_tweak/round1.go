@@ -3,10 +3,10 @@ package sign_with_tweak
 import (
 	"crypto/rand"
 
-	"github.com/sa8/multi-party-sig/internal/round"
-	"github.com/sa8/multi-party-sig/pkg/math/curve"
-	"github.com/sa8/multi-party-sig/pkg/math/sample"
-	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/Zondax/multi-party-sig/internal/round"
+	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/Zondax/multi-party-sig/pkg/party"
 	"github.com/zeebo/blake3"
 )
 
