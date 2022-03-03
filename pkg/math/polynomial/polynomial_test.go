@@ -7,10 +7,10 @@ import (
 	"testing"
 
 	"github.com/cronokirby/safenum"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
 )
 
 func TestPolynomial_Constant(t *testing.T) {

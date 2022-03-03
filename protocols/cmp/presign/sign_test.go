@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	"github.com/cronokirby/safenum"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/test"
+	"github.com/sa8/multi-party-sig/pkg/ecdsa"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/protocols/cmp/config"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/test"
-	"github.com/Zondax/multi-party-sig/pkg/ecdsa"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
-	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
 	"golang.org/x/crypto/sha3"
 )
 

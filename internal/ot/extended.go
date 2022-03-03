@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/params"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/pkg/hash"
 	"github.com/zeebo/blake3"
 )
 

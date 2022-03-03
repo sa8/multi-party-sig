@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/fxamacker/cbor/v2"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/pool"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
 )
 
 func TestPrm(t *testing.T) {

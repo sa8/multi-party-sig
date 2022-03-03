@@ -4,13 +4,13 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/taproot"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/taproot"
 )
 
 // This round roughly corresponds with steps 3-6 of Figure 3 in the Frost paper:
@@ -105,7 +105,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		rho[l] = sample.Scalar(rhoHash.Digest(), r.Group())
 	}
 
-    //In this step, we compute the shared commitment value R
+	//In this step, we compute the shared commitment value R
 	R := r.Group().NewPoint()
 	RShares := make(map[party.ID]curve.Point)
 	for _, l := range r.PartyIDs() {
@@ -130,17 +130,17 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	//Y is the tweaked public key (so the addition of the public key and the tweak point)
 	var Y_tweak curve.Point
 
-    //We set the tweaked secret to the bytes of the tweak value
-    s_tweak = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(r.T[:]))
+	//We set the tweaked secret to the bytes of the tweak value
+	s_tweak = r.Group().NewScalar().SetNat(new(safenum.Nat).SetBytes(r.T[:]))
 
-    //We construct the tweak point by acting on the base point.
-    p_tweak := s_tweak.ActOnBase()
+	//We construct the tweak point by acting on the base point.
+	p_tweak := s_tweak.ActOnBase()
 
-    //We set the tweaked public key as the addition of the pubkey and the tweak point
-    Y_tweak = r.Y.Add(p_tweak)
-    YSecp := Y_tweak.(*curve.Secp256k1Point)
+	//We set the tweaked public key as the addition of the pubkey and the tweak point
+	Y_tweak = r.Y.Add(p_tweak)
+	YSecp := Y_tweak.(*curve.Secp256k1Point)
 
-    //We now need to check if the tweaked public key satisfies the Taproot even-Y rule
+	//We now need to check if the tweaked public key satisfies the Taproot even-Y rule
 
 	if r.taproot {
 		// BIP-340 adjustment: We need R to have an even y coordinate. This means
@@ -155,26 +155,26 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 				RShares[l] = RShares[l].Negate()
 			}
 		}
-        //If the tweaked pubkey does not have an even Y, we need to flip it's sign
-        //We do this by negating (again) R, the tweak scalar, negating the pubkey Y and adding the negated scalar point again:
-        //-Y_tweak = -(Y + P_tweak) = -Y - P_tweak
-        //We set the boolean flipped to true.
-        //Note that we double flip R, but that is because we later fully flip the signature to deal with the signflip correctly
-        if !YSecp.HasEvenY() {
-            //negate R again because we will negate the complete signature later
-            r.d_i.Negate()
-            r.e_i.Negate()
-            for _, l := range r.PartyIDs() {
-                RShares[l] = RShares[l].Negate()
-            }
-            s_tweak.Negate()
-            p_tweak := s_tweak.ActOnBase()
-            Y_tweak = r.Y.Negate().Add(p_tweak)
-            YSecp = Y_tweak.(*curve.Secp256k1Point)
-            flipped = true
-        }
+		//If the tweaked pubkey does not have an even Y, we need to flip it's sign
+		//We do this by negating (again) R, the tweak scalar, negating the pubkey Y and adding the negated scalar point again:
+		//-Y_tweak = -(Y + P_tweak) = -Y - P_tweak
+		//We set the boolean flipped to true.
+		//Note that we double flip R, but that is because we later fully flip the signature to deal with the signflip correctly
+		if !YSecp.HasEvenY() {
+			//negate R again because we will negate the complete signature later
+			r.d_i.Negate()
+			r.e_i.Negate()
+			for _, l := range r.PartyIDs() {
+				RShares[l] = RShares[l].Negate()
+			}
+			s_tweak.Negate()
+			p_tweak := s_tweak.ActOnBase()
+			Y_tweak = r.Y.Negate().Add(p_tweak)
+			YSecp = Y_tweak.(*curve.Secp256k1Point)
+			flipped = true
+		}
 
-        PBytes := YSecp.XBytes()
+		PBytes := YSecp.XBytes()
 		// BIP-340 adjustment: we need to calculate our hash as specified in:
 		// https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#default-signing
 		RBytes := RSecp.XBytes()
@@ -220,7 +220,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		z:       map[party.ID]curve.Scalar{r.SelfID(): z_i},
 		Lambda:  Lambdas,
 		s_tweak: s_tweak,
-		Y_tweak : Y_tweak,
+		Y_tweak: Y_tweak,
 		flipped: flipped,
 	}, nil
 }

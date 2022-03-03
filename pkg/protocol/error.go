@@ -3,7 +3,7 @@ package protocol
 import (
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 // Error is a custom error for protocols which contains information about the responsible round in which it occurred,

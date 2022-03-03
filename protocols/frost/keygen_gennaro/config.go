@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/bip32"
-	"github.com/Zondax/multi-party-sig/internal/params"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/taproot"
+	"github.com/sa8/multi-party-sig/internal/bip32"
+	"github.com/sa8/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/taproot"
 )
 
 // Config contains all the information produced after key generation, from the perspective

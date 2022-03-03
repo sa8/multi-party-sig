@@ -4,8 +4,8 @@ import (
 	"io"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/params"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
 )
 
 func sampleNeg(rand io.Reader, bits int) *safenum.Int {

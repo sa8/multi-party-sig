@@ -3,12 +3,12 @@ package sign
 import (
 	"crypto/rand"
 
-	"github.com/Zondax/multi-party-sig/internal/ot"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/protocols/doerner/keygen"
+	"github.com/sa8/multi-party-sig/internal/ot"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/protocols/doerner/keygen"
 )
 
 // message1R is the first message sent by the Receiver.

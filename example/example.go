@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Zondax/multi-party-sig/internal/test"
-	"github.com/Zondax/multi-party-sig/pkg/ecdsa"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
-	"github.com/Zondax/multi-party-sig/pkg/protocol"
-	"github.com/Zondax/multi-party-sig/pkg/taproot"
-	"github.com/Zondax/multi-party-sig/protocols/cmp"
-	"github.com/Zondax/multi-party-sig/protocols/example"
-	"github.com/Zondax/multi-party-sig/protocols/frost"
+	"github.com/sa8/multi-party-sig/internal/test"
+	"github.com/sa8/multi-party-sig/pkg/ecdsa"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/pkg/protocol"
+	"github.com/sa8/multi-party-sig/pkg/taproot"
+	"github.com/sa8/multi-party-sig/protocols/cmp"
+	"github.com/sa8/multi-party-sig/protocols/example"
+	"github.com/sa8/multi-party-sig/protocols/frost"
 )
 
 func XOR(id party.ID, ids party.IDSlice, n *test.Network) error {

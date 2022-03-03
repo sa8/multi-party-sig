@@ -4,7 +4,7 @@ import (
 	"math/big"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/internal/params"
 )
 
 // IsValidNatModN checks that ints are all in the range [1,…,N-1] and co-prime to N.

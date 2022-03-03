@@ -5,17 +5,17 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/types"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	zkmod "github.com/Zondax/multi-party-sig/pkg/zk/mod"
-	zkprm "github.com/Zondax/multi-party-sig/pkg/zk/prm"
-	zksch "github.com/Zondax/multi-party-sig/pkg/zk/sch"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/types"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	zkmod "github.com/sa8/multi-party-sig/pkg/zk/mod"
+	zkprm "github.com/sa8/multi-party-sig/pkg/zk/prm"
+	zksch "github.com/sa8/multi-party-sig/pkg/zk/sch"
 )
 
 var _ round.Round = (*round3)(nil)

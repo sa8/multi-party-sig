@@ -6,9 +6,9 @@ import (
 	"testing/quick"
 
 	"github.com/cronokirby/safenum"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/pool"
 	"github.com/stretchr/testify/assert"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
 )
 
 var (

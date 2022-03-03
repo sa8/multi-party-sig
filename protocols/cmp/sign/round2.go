@@ -4,13 +4,13 @@ import (
 	"errors"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/mta"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	zkenc "github.com/Zondax/multi-party-sig/pkg/zk/enc"
-	zklogstar "github.com/Zondax/multi-party-sig/pkg/zk/logstar"
+	"github.com/sa8/multi-party-sig/internal/mta"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	zkenc "github.com/sa8/multi-party-sig/pkg/zk/enc"
+	zklogstar "github.com/sa8/multi-party-sig/pkg/zk/logstar"
 )
 
 var _ round.Round = (*round2)(nil)

@@ -3,13 +3,13 @@ package sign
 import (
 	"crypto/rand"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	zkenc "github.com/Zondax/multi-party-sig/pkg/zk/enc"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	zkenc "github.com/sa8/multi-party-sig/pkg/zk/enc"
 )
 
 var _ round.Round = (*round1)(nil)

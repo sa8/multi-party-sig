@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/pkg/math/arith"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/math/arith"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
 )
 
 var benchParams *Parameters

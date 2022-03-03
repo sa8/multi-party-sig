@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	"github.com/sa8/multi-party-sig/pkg/pool"
 )
 
 var (

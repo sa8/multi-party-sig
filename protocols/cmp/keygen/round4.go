@@ -3,16 +3,16 @@ package keygen
 import (
 	"errors"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/types"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	zkmod "github.com/Zondax/multi-party-sig/pkg/zk/mod"
-	zkprm "github.com/Zondax/multi-party-sig/pkg/zk/prm"
-	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/types"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	zkmod "github.com/sa8/multi-party-sig/pkg/zk/mod"
+	zkprm "github.com/sa8/multi-party-sig/pkg/zk/prm"
+	"github.com/sa8/multi-party-sig/protocols/cmp/config"
 )
 
 var _ round.Round = (*round4)(nil)

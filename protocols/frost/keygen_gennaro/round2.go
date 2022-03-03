@@ -1,11 +1,10 @@
 package keygen_gennaro
 
 import (
-
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 

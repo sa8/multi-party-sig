@@ -7,9 +7,9 @@ import (
 	"sync"
 
 	"github.com/fxamacker/cbor/v2"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 // StartFunc is function that creates the first round of a protocol.

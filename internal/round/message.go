@@ -1,7 +1,7 @@
 package round
 
 import (
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 // Content represents the message, either broadcast or P2P returned by a round

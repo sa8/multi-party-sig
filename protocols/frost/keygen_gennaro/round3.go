@@ -3,10 +3,10 @@ package keygen_gennaro
 import (
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 //This broadcast message are the VSS shares for each participant to verify other participants.
@@ -36,16 +36,16 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 		return round.ErrInvalidContent
 	}
 
-    // "Each Pᵢ verifies their shares by calculating
-    //
-    //   fₗ(i) * G =? ∑ₖ₌₀ᵗ (iᵏ mod q) * ϕₗₖ
-    //
-    expected := r.shareFrom[from].ActOnBase()
-    actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
-    if !expected.Equal(actual) {
-        return fmt.Errorf("VSS failed to validate")
-    }
-    r.Phi[from] = body.Phi_i
+	// "Each Pᵢ verifies their shares by calculating
+	//
+	//   fₗ(i) * G =? ∑ₖ₌₀ᵗ (iᵏ mod q) * ϕₗₖ
+	//
+	expected := r.shareFrom[from].ActOnBase()
+	actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
+	if !expected.Equal(actual) {
+		return fmt.Errorf("VSS failed to validate")
+	}
+	r.Phi[from] = body.Phi_i
 
 	return nil
 }
@@ -131,9 +131,9 @@ func (broadcast3) RoundNumber() round.Number { return 3 }
 
 // BroadcastContent implements round.BroadcastRound.
 func (r *round3) BroadcastContent() round.BroadcastContent {
-    return &broadcast3{
-    		Phi_i:   polynomial.EmptyExponent(r.Group()),
-    }
+	return &broadcast3{
+		Phi_i: polynomial.EmptyExponent(r.Group()),
+	}
 }
 
 // Number implements round.Round.

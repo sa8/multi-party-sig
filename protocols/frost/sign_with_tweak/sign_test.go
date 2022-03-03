@@ -3,20 +3,21 @@ package sign_with_tweak
 import (
 	"crypto/rand"
 	"crypto/sha256"
+	_ "fmt"
 	"testing"
-	_"fmt"
-    "github.com/cronokirby/safenum"
+
+	"github.com/cronokirby/safenum"
+	"github.com/sa8/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/test"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/taproot"
+	"github.com/sa8/multi-party-sig/protocols/frost/keygen"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/Zondax/multi-party-sig/internal/params"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/test"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/taproot"
-	"github.com/Zondax/multi-party-sig/protocols/frost/keygen"
 )
 
 func checkOutput(t *testing.T, rounds []round.Session, public curve.Point, m []byte) {
