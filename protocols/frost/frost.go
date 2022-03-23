@@ -64,7 +64,7 @@ func KeygenTaproot(selfID party.ID, participants []party.ID, threshold int) prot
 //
 // See: https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#specification
 func KeygenTaprootGennaro(selfID party.ID, participants []party.ID, threshold int) protocol.StartFunc {
-	return keygen.StartKeygenCommon(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
+	return keygen_gennaro.StartKeygenCommon(true, curve.Secp256k1{}, participants, threshold, selfID, nil, nil, nil)
 }
 
 // Refresh
