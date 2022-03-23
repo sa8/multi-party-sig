@@ -4,16 +4,16 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/types"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
-	"github.com/Zondax/multi-party-sig/pkg/protocol"
-	"github.com/Zondax/multi-party-sig/protocols/cmp/config"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/types"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	"github.com/sa8/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/pkg/protocol"
+	"github.com/sa8/multi-party-sig/protocols/cmp/config"
 )
 
 // protocolSignID for the "3 round" variant using echo broadcast.

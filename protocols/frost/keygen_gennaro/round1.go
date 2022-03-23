@@ -3,11 +3,11 @@ package keygen_gennaro
 import (
 	"crypto/rand"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 // This round corresponds with the steps 1-4 of Round 1, Figure 1 in the Frost paper:
@@ -80,6 +80,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
     }
     selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
     //3. Every participant computes ph_i == <f_ij G>
+	
 	return &round2{
 		round1:               r,
 		f_i:                  f_i,

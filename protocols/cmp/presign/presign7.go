@@ -3,14 +3,14 @@ package presign
 import (
 	"errors"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/internal/types"
-	"github.com/Zondax/multi-party-sig/pkg/ecdsa"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	zkelog "github.com/Zondax/multi-party-sig/pkg/zk/elog"
-	zklog "github.com/Zondax/multi-party-sig/pkg/zk/log"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/internal/types"
+	"github.com/sa8/multi-party-sig/pkg/ecdsa"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	zkelog "github.com/sa8/multi-party-sig/pkg/zk/elog"
+	zklog "github.com/sa8/multi-party-sig/pkg/zk/log"
 )
 
 var _ round.Round = (*presign7)(nil)

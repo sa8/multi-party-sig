@@ -7,13 +7,13 @@ import (
 	"github.com/cronokirby/safenum"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/zk"
-	zkaffg "github.com/Zondax/multi-party-sig/pkg/zk/affg"
-	zkaffp "github.com/Zondax/multi-party-sig/pkg/zk/affp"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/zk"
+	zkaffg "github.com/sa8/multi-party-sig/pkg/zk/affg"
+	zkaffp "github.com/sa8/multi-party-sig/pkg/zk/affp"
 )
 
 func Test_newMtA(t *testing.T) {

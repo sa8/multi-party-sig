@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/elgamal"
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/hash"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/paillier"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	zkaffg "github.com/Zondax/multi-party-sig/pkg/zk/affg"
-	zkaffp "github.com/Zondax/multi-party-sig/pkg/zk/affp"
+	"github.com/sa8/multi-party-sig/internal/elgamal"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/hash"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/paillier"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	zkaffg "github.com/sa8/multi-party-sig/pkg/zk/affg"
+	zkaffp "github.com/sa8/multi-party-sig/pkg/zk/affp"
 )
 
 var _ round.Round = (*presign3)(nil)

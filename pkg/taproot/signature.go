@@ -8,7 +8,7 @@ import (
 	"io"
 	"sync/atomic"
 
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
 )
 
 // TaggedHash addes some domain separation to SHA-256.

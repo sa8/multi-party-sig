@@ -3,10 +3,10 @@ package keygen_gennaro
 import (
 	"fmt"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/math/polynomial"
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 type complaint struct {
@@ -20,8 +20,7 @@ type broadcast3 struct {
 	Phi_i *polynomial.Exponent
 }
 
-// This round corresponds with steps 2-4 of Round 2, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
+
 type round3 struct {
 	*round2
 

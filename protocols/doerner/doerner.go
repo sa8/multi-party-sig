@@ -1,12 +1,12 @@
 package doerner
 
 import (
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
-	"github.com/Zondax/multi-party-sig/pkg/protocol"
-	"github.com/Zondax/multi-party-sig/protocols/doerner/keygen"
-	"github.com/Zondax/multi-party-sig/protocols/doerner/sign"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/pkg/protocol"
+	"github.com/sa8/multi-party-sig/protocols/doerner/keygen"
+	"github.com/sa8/multi-party-sig/protocols/doerner/sign"
 )
 
 type (

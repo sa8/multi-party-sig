@@ -3,8 +3,8 @@ package sign
 import (
 	"errors"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/ecdsa"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/ecdsa"
 )
 
 // round2S is the final round of the signature protocol.

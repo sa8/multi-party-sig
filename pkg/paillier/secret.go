@@ -6,11 +6,11 @@ import (
 	"fmt"
 
 	"github.com/cronokirby/safenum"
-	"github.com/Zondax/multi-party-sig/internal/params"
-	"github.com/Zondax/multi-party-sig/pkg/math/arith"
-	"github.com/Zondax/multi-party-sig/pkg/math/sample"
-	"github.com/Zondax/multi-party-sig/pkg/pedersen"
-	"github.com/Zondax/multi-party-sig/pkg/pool"
+	"github.com/sa8/multi-party-sig/internal/params"
+	"github.com/sa8/multi-party-sig/pkg/math/arith"
+	"github.com/sa8/multi-party-sig/pkg/math/sample"
+	"github.com/sa8/multi-party-sig/pkg/pedersen"
+	"github.com/sa8/multi-party-sig/pkg/pool"
 )
 
 var (

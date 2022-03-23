@@ -3,10 +3,10 @@ package sign
 import (
 	"errors"
 
-	"github.com/Zondax/multi-party-sig/internal/round"
-	"github.com/Zondax/multi-party-sig/pkg/math/curve"
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	zklogstar "github.com/Zondax/multi-party-sig/pkg/zk/logstar"
+	"github.com/sa8/multi-party-sig/internal/round"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	zklogstar "github.com/sa8/multi-party-sig/pkg/zk/logstar"
 )
 
 var _ round.Round = (*round4)(nil)

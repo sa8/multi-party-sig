@@ -3,8 +3,8 @@ package test
 import (
 	"sync"
 
-	"github.com/Zondax/multi-party-sig/pkg/party"
-	"github.com/Zondax/multi-party-sig/pkg/protocol"
+	"github.com/sa8/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/protocol"
 )
 
 // Network simulates a point-to-point network between different parties using Go channels.

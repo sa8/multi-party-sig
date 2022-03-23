@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/Zondax/multi-party-sig/pkg/party"
+	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
 // PartyIDs returns a party.IDSlice (sorted) with IDs represented as simple strings.
