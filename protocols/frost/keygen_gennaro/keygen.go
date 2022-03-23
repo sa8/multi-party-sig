@@ -11,8 +11,8 @@ import (
 
 const (
 	// Frost KeyGen with Threshold.
-	protocolID        = "frost/keygen-threshold"
-	protocolIDTaproot = "frost/keygen-threshold-taproot"
+	protocolID        = "frost/keygen-gennaro-threshold"
+	protocolIDTaproot = "frost/keygen-genaro-threshold-taproot"
 	// This protocol has 5 concrete rounds.
 	protocolRounds round.Number = 5
 )
