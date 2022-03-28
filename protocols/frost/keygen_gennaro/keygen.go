@@ -12,7 +12,7 @@ import (
 const (
 	// Frost KeyGen with Threshold.
 	protocolID        = "frost/keygen-gennaro-threshold"
-	protocolIDTaproot = "frost/keygen-genaro-threshold-taproot"
+	protocolIDTaproot = "frost/keygen-gennaro-threshold-taproot"
 	// This protocol has 5 concrete rounds.
 	protocolRounds round.Number = 5
 )
@@ -36,9 +36,9 @@ func StartKeygenCommonGennaro(taproot bool, group curve.Curve, participants []pa
 			Group:            group,
 		}
 		if taproot {
-			info.ProtocolID = protocolID
-		} else {
 			info.ProtocolID = protocolIDTaproot
+		} else {
+			info.ProtocolID = protocolID
 		}
 
 		helper, err := round.NewSession(info, sessionID, nil)

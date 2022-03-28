@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"sync"
+	"time"
 
 	"github.com/sa8/multi-party-sig/internal/types"
 	"github.com/sa8/multi-party-sig/pkg/hash"
@@ -32,6 +33,8 @@ type Helper struct {
 	hash *hash.Hash
 
 	mtx sync.Mutex
+
+	startTime time.Time
 }
 
 // NewSession creates a new *Helper which can be embedded in the first Round,
@@ -41,6 +44,9 @@ type Helper struct {
 // It could be a simple counter which is incremented after execution,  or a common random string.
 // `auxInfo` is a variable list of objects which should be included in the session's hash state.
 func NewSession(info Info, sessionID []byte, pl *pool.Pool, auxInfo ...hash.WriterToWithDomain) (*Helper, error) {
+
+	startTime := time.Now()
+
 	partyIDs := party.NewIDSlice(info.PartyIDs)
 	if !partyIDs.Valid() {
 		return nil, errors.New("session: partyIDs invalid")
@@ -113,6 +119,7 @@ func NewSession(info Info, sessionID []byte, pl *pool.Pool, auxInfo ...hash.Writ
 		otherPartyIDs: partyIDs.Remove(info.SelfID),
 		ssid:          h.Clone().Sum(),
 		hash:          h,
+		startTime:     startTime,
 	}, nil
 }
 
@@ -222,3 +229,5 @@ func (h *Helper) N() int { return len(h.info.PartyIDs) }
 
 // Group returns the curve used for this protocol.
 func (h *Helper) Group() curve.Curve { return h.info.Group }
+
+func (h *Helper) StartTime() time.Time { return h.startTime }

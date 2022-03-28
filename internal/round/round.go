@@ -1,5 +1,7 @@
 package round
 
+import "time"
+
 type Round interface {
 	// VerifyMessage handles an incoming Message and validates its content with regard to the protocol specification.
 	// The content argument can be cast to the appropriate type for this round without error check.
@@ -32,6 +34,9 @@ type Round interface {
 
 	// Number returns the current round number.
 	Number() Number
+
+	// Start time returns the time at which we started the round
+	StartTime() time.Time
 }
 
 // BroadcastRound extends Round in that it expects a broadcast message before the p2p message.

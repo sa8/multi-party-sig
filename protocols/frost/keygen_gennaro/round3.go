@@ -2,13 +2,14 @@ package keygen_gennaro
 
 import (
 	"fmt"
+    "time"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
 	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
-
+// this rounds corresponds to the complaints (if any)
 type complaint struct {
     id party.ID
     value curve.Scalar
@@ -29,6 +30,8 @@ type round3 struct {
 	// Phi contains the polynomial commitment for each participant, ourselves included.
 	//
 	Phi map[party.ID]*polynomial.Exponent
+
+    startTime time.Time
 }
 
 // StoreMessage implements round.Round.
@@ -67,8 +70,9 @@ func (r *round3) VerifyMessage(msg round.Message) error {
 
 // Finalize implements round.Round.
 func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
+    r.startTime = time.Now()
 
-    // 4. "Every Pᵢ broadcasts phi_i
+    // 4. "Every Pᵢ broadcasts its complaints
     err := r.BroadcastMessage(out, &broadcast4{
         complaints: r.mps,
     })
@@ -97,3 +101,5 @@ func (r *round3) BroadcastContent() round.BroadcastContent {
 
 // Number implements round.Round.
 func (round3) Number() round.Number { return 3 }
+
+func (r *round3) StartTime() time.Time {return r.startTime}

@@ -2,6 +2,7 @@ package keygen_gennaro
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -15,10 +16,9 @@ type broadcast5 struct {
 	proofs []proof
 }
 
-// This round corresponds with steps 2-4 of Round 2, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
 type round5 struct {
 	*round4
+	startTime time.Time
 }
 
 // StoreMessage implements round.Round.
@@ -54,8 +54,7 @@ func (r *round5) VerifyMessage(msg round.Message) error {
 
 // Finalize implements round.Round.
 func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
-
-	// These steps come from Figure 1, Round 2 of the Frost paper
+	r.startTime = time.Now()
 
 	// 3. "Each P_i calculates their long-lived private signing share by computing
 	// sᵢ = ∑ₗ₌₁ⁿ fₗ(i), stores s_i securely, and deletes each fₗ(i)"
@@ -141,3 +140,5 @@ func (r *round5) BroadcastContent() round.BroadcastContent {
 
 // Number implements round.Round.
 func (round5) Number() round.Number { return 5 }
+
+func (r *round5) StartTime() time.Time {return r.startTime}

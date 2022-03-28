@@ -2,6 +2,7 @@ package keygen_gennaro
 
 import (
 	"crypto/rand"
+	"time"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -39,6 +40,10 @@ type round1 struct {
 	verificationShares map[party.ID]curve.Point
 	// publicKey should be the previous public key when refreshing, and 0 otherwise.
 	publicKey curve.Point
+
+	//timer
+	//timer NewTimer *time.Timer
+	startTime time.Time
 }
 
 // VerifyMessage implements round.Round.
@@ -55,6 +60,8 @@ func (r *round1) StoreMessage(round.Message) error { return nil }
 // The overall goal of this round is to generate a secret value, create a polynomial
 // sharing of that value, and then send commitments to these values.
 func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
+	//r.timer := time.NewTimer(time.Second * 10)
+	r.startTime = time.Now()
 	group := r.Group()
 	// These steps come from Figure 1, Round 1 of the Frost paper.
 
@@ -93,3 +100,5 @@ func (round1) MessageContent() round.Content { return nil }
 
 // Number implements round.Round.
 func (round1) Number() round.Number { return 1 }
+
+func (r *round1) StartTime() time.Time {return r.startTime}

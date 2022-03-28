@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/fxamacker/cbor/v2"
 	"github.com/sa8/multi-party-sig/internal/round"
@@ -232,9 +233,16 @@ func (h *MultiHandler) verifyMessage(msg *Message) error {
 
 func (h *MultiHandler) finalize() {
 	// only finalize if we have received all messages
-	if !h.receivedAll() {
+	// if !h.receivedAll() {
+	// 	return
+	// }
+
+	// we replace the above (only finalize if we have received all messages)
+	// with do not finalize before some timeout has expired.
+	if !h.timeOutDone() && !h.receivedAll() {
 		return
 	}
+
 	if !h.checkBroadcastHash() {
 		h.abort(errors.New("broadcast verification failed"))
 		return
@@ -354,6 +362,17 @@ func (h *MultiHandler) Stop() {
 
 func expectsNormalMessage(r round.Session) bool {
 	return r.MessageContent() != nil
+}
+
+func (h *MultiHandler) timeOutDone() bool {
+	r := h.currentRound
+	//check the time when the protocol started
+	t1 := r.StartTime()
+	t2 := time.Now()
+	if  t2.Sub(t1) < (time.Second) * 10 {
+		return false
+	}
+	return true
 }
 
 func (h *MultiHandler) receivedAll() bool {

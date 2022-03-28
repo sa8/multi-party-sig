@@ -1,6 +1,8 @@
 package keygen_gennaro
 
 import (
+    "time"
+    
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
 	"github.com/sa8/multi-party-sig/pkg/party"
@@ -14,16 +16,15 @@ type proof struct {
 
 type broadcast4 struct {
 	round.ReliableBroadcastContent
-	// Phi_i is the commitment to the polynomial that this participant generated.
 	complaints []complaint
 }
 
-// This round corresponds with steps 2-4 of Round 2, Figure 1 in the Frost paper:
-//   https://eprint.iacr.org/2020/852.pdf
+
 type round4 struct {
 	*round3
 	complaints map[party.ID]*curve.Scalar
 	proofs []proof
+    startTime time.Time
 }
 
 // StoreMessage implements round.Round.
@@ -55,6 +56,7 @@ func (r *round4) VerifyMessage(msg round.Message) error {
 
 // Finalize implements round.Round.
 func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
+    r.startTime = time.Now()
     // 4. "Every Pᵢ broadcasts phi_i
     err := r.BroadcastMessage(out, &broadcast5{
         proofs: r.proofs,
@@ -81,3 +83,5 @@ func (r *round4) BroadcastContent() round.BroadcastContent {
 
 // Number implements round.Round.
 func (round4) Number() round.Number { return 4 }
+
+func (r *round4) StartTime() time.Time {return r.startTime}
