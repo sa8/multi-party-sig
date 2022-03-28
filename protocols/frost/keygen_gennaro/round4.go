@@ -2,7 +2,8 @@ package keygen_gennaro
 
 import (
     "time"
-    
+    "fmt"
+
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
 	"github.com/sa8/multi-party-sig/pkg/party"
@@ -39,6 +40,7 @@ func (r *round4) StoreBroadcastMessage(msg round.Message) error {
 		return round.ErrInvalidContent
 	}
 
+    fmt.Println("Conplaints: ", body.complaints )
     for _, c := range body.complaints {
         if c.id == r.SelfID(){
             r.proofs = append(r.proofs,proof{id: from, value: r.f_i.Evaluate(from.Scalar(r.Group()))})

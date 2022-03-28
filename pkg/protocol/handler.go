@@ -242,6 +242,8 @@ func (h *MultiHandler) finalize() {
 	// we replace the above (only finalize if we have received all messages)
 	// with do not finalize before some timeout has expired.
 	if !h.timeOutDone() && !h.receivedAll() {
+		if !h.timeOutDone() {fmt.Println("time out not done ")}
+		if !h.receivedAll() {fmt.Println("time out not done ")}
 		return
 	}
 
