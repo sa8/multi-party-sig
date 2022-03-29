@@ -2,6 +2,7 @@ package keygen_gennaro
 
 import (
 	"testing"
+	"fmt"
 
 	"github.com/fxamacker/cbor/v2"
 	"github.com/stretchr/testify/assert"
@@ -153,6 +154,7 @@ func TestKeygenTaproot(t *testing.T) {
 		rounds = append(rounds, r)
 
 	}
+	fmt.Println("Rounds", rounds)
 
 	for {
 		err, done := test.Rounds(rounds, nil)

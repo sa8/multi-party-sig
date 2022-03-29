@@ -13,7 +13,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
-var timeOut = (time.Second) * 20
+var timeOut = (time.Second) * 5
 
 // StartFunc is function that creates the first round of a protocol.
 // It returns the first round initialized with the session information.
@@ -165,7 +165,7 @@ func (h *MultiHandler) Accept(msg *Message) {
 			return
 		}
 	}
-
+	fmt.Println("Calling finalize")
 	h.finalize()
 }
 

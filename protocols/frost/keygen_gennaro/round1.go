@@ -3,6 +3,7 @@ package keygen_gennaro
 import (
 	"crypto/rand"
 	"time"
+	//"fmt"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"

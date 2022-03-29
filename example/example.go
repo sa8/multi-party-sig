@@ -148,7 +148,7 @@ func FrostSign(c *frost.Config, id party.ID, m []byte, signers party.IDSlice, n 
 }
 
 func FrostKeygenTaproot(id party.ID, ids party.IDSlice, threshold int, n *test.Network) (*frost.TaprootConfig, error) {
-	h, err := protocol.NewMultiHandler(frost.KeygenTaproot(id, ids, threshold), nil)
+	h, err := protocol.NewMultiHandler(frost.KeygenTaprootGennaro(id, ids, threshold), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -187,23 +187,23 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 		return err
 	}
 
-	// CMP KEYGEN
-	keygenConfig, err := CMPKeygen(id, ids, threshold, n, pl)
-	if err != nil {
-		return err
-	}
+	// // CMP KEYGEN
+	// keygenConfig, err := CMPKeygen(id, ids, threshold, n, pl)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// CMP REFRESH
-	refreshConfig, err := CMPRefresh(keygenConfig, n, pl)
-	if err != nil {
-		return err
-	}
+	// // CMP REFRESH
+	// refreshConfig, err := CMPRefresh(keygenConfig, n, pl)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// FROST KEYGEN
-	frostResult, err := FrostKeygen(id, ids, threshold, n)
-	if err != nil {
-		return err
-	}
+	// // FROST KEYGEN
+	// frostResult, err := FrostKeygen(id, ids, threshold, n)
+	// if err != nil {
+	// 	return err
+	// }
 
 	// FROST KEYGEN TAPROOT
 	frostResultTaproot, err := FrostKeygenTaproot(id, ids, threshold, n)
@@ -211,41 +211,42 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 		return err
 	}
 
+	fmt.Println("result from keygen: ", frostResultTaproot)
 	signers := ids[:threshold+1]
 	if !signers.Contains(id) {
 		n.Quit(id)
 		return nil
 	}
 
-	// CMP SIGN
-	err = CMPSign(refreshConfig, message, signers, n, pl)
-	if err != nil {
-		return err
-	}
+	// // CMP SIGN
+	// err = CMPSign(refreshConfig, message, signers, n, pl)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// CMP PRESIGN
-	preSignature, err := CMPPreSign(refreshConfig, signers, n, pl)
-	if err != nil {
-		return err
-	}
+	// // CMP PRESIGN
+	// preSignature, err := CMPPreSign(refreshConfig, signers, n, pl)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// CMP PRESIGN ONLINE
-	err = CMPPreSignOnline(refreshConfig, preSignature, message, n, pl)
-	if err != nil {
-		return err
-	}
+	// // CMP PRESIGN ONLINE
+	// err = CMPPreSignOnline(refreshConfig, preSignature, message, n, pl)
+	// if err != nil {
+	// 	return err
+	// }
 
-	// FROST SIGN
-	err = FrostSign(frostResult, id, message, signers, n)
-	if err != nil {
-		return err
-	}
+	// // FROST SIGN
+	// err = FrostSign(frostResult, id, message, signers, n)
+	// if err != nil {
+	// 	return err
+	// }
 
 	// FROST SIGN TAPROOT
-	err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
-	if err != nil {
-		return err
-	}
+	// err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
+	// if err != nil {
+	// 	return err
+	// }
 
 	return nil
 }

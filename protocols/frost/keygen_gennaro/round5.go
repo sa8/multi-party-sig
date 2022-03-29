@@ -90,6 +90,7 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 	for k, v := range r.verificationShares {
 		r.verificationShares[k] = v.Add(verificationExponent.Evaluate(k.Scalar(r.Group())))
 	}
+	//fmt.Println("Public key: ",r.SelfID(),r.publicKey)
 	if r.taproot {
 		// BIP-340 adjustment: If our public key is odd, then the underlying secret
 		// needs to be negated. Since this secret is ∑ᵢ aᵢ₀, we can negated each
