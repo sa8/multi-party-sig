@@ -37,6 +37,7 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	h, err := protocol.NewMultiHandler(KeygenTaprootGennaro(id, ids, threshold), nil)
 	require.NoError(t, err)
 	r, err := h.Result()
+	fmt.Println(r)
 	c := r.(*TaprootConfig)
 	test.HandlerLoop(c.ID, h, n)
 

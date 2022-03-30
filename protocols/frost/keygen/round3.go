@@ -97,6 +97,7 @@ func (r *round3) StoreMessage(msg round.Message) error {
 
 // Finalize implements round.Round.
 func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
+	fmt.Println("starting round 3")
 	ChainKey := types.EmptyRID()
 	for _, j := range r.PartyIDs() {
 		ChainKey.XOR(r.ChainKeys[j])
@@ -137,6 +138,8 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 		r.verificationShares[k] = v.Add(verificationExponent.Evaluate(k.Scalar(r.Group())))
 	}
 
+
+	fmt.Println("Keygen result: ", r.publicKey.(*curve.Secp256k1Point).XBytes()[:])
 	if r.taproot {
 		// BIP-340 adjustment: If our public key is odd, then the underlying secret
 		// needs to be negated. Since this secret is ∑ᵢ aᵢ₀, we can negated each
@@ -157,6 +160,7 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 		for k, v := range r.verificationShares {
 			secpVerificationShares[k] = v.(*curve.Secp256k1Point)
 		}
+
 		return r.ResultRound(&TaprootConfig{
 			ID:                 r.SelfID(),
 			Threshold:          r.threshold,

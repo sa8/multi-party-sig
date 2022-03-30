@@ -15,6 +15,7 @@ type (
 	Config        = keygen_gennaro.Config
 	TaprootConfig = keygen_gennaro.TaprootConfig
 	Signature     = sign.Signature
+	KeygenConfig        = keygen.Config
 )
 
 // EmptyConfig creates an empty Config with a specific group.

@@ -2,7 +2,7 @@ package keygen_gennaro
 
 import (
 	"time"
-	//"fmt"
+	"fmt"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -32,8 +32,8 @@ type round2 struct {
 func (round2) Number() round.Number { return 2 }
 
 func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
-	r.startTime = time.Now()
-
+	//r.startTime = time.Now()
+	fmt.Println("Starting round 2", r.SelfID())
     Phi_i := polynomial.NewPolynomialExponent(r.f_i)
 
 	// 4. "Every Pᵢ broadcasts phi_i
@@ -51,6 +51,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		round2:    r,
 		Phi:  map[party.ID]*polynomial.Exponent{r.SelfID(): Phi_i},
 		mps: cmp,
+		startTime: time.Now(),
 	}, nil
 }
 

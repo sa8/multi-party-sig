@@ -2,6 +2,7 @@ package keygen_gennaro
 
 import (
     "time"
+    "fmt"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -58,6 +59,7 @@ func (r *round4) VerifyMessage(msg round.Message) error {
 func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
     r.startTime = time.Now()
     // 4. "Every Pᵢ broadcasts phi_i
+    fmt.Println("Starting round 4", r.SelfID())
     err := r.BroadcastMessage(out, &broadcast5{
         proofs: r.proofs,
     })
@@ -66,6 +68,7 @@ func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
     }
     return &round5{
         round4:    r,
+        startTime: time.Now(),
     }, nil
 
 }

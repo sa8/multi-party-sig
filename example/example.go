@@ -115,7 +115,7 @@ func CMPPreSignOnline(c *cmp.Config, preSignature *ecdsa.PreSignature, m []byte,
 	return nil
 }
 
-func FrostKeygen(id party.ID, ids party.IDSlice, threshold int, n *test.Network) (*frost.Config, error) {
+func FrostKeygen(id party.ID, ids party.IDSlice, threshold int, n *test.Network) (*frost.KeygenConfig, error) {
 	h, err := protocol.NewMultiHandler(frost.Keygen(curve.Secp256k1{}, id, ids, threshold), nil)
 	if err != nil {
 		return nil, err
@@ -126,7 +126,7 @@ func FrostKeygen(id party.ID, ids party.IDSlice, threshold int, n *test.Network)
 		return nil, err
 	}
 
-	return r.(*frost.Config), nil
+	return r.(*frost.KeygenConfig), nil
 }
 
 func FrostSign(c *frost.Config, id party.ID, m []byte, signers party.IDSlice, n *test.Network) error {
@@ -152,7 +152,7 @@ func FrostKeygenTaproot(id party.ID, ids party.IDSlice, threshold int, n *test.N
 	if err != nil {
 		return nil, err
 	}
-	test.HandlerLoop(id, h, n)
+	test.HandlerLoopKeyGen(id, h, n)
 	r, err := h.Result()
 	if err != nil {
 		return nil, err
@@ -175,6 +175,7 @@ func FrostSignTaproot(c *frost.TaprootConfig, id party.ID, m []byte, signers par
 	if !c.PublicKey.Verify(signature, m) {
 		return errors.New("failed to verify frost signature")
 	}
+	fmt.Println("Signature: ", signature)
 	return nil
 }
 
@@ -199,11 +200,12 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	// 	return err
 	// }
 
-	// // FROST KEYGEN
+	// FROST KEYGEN
 	// frostResult, err := FrostKeygen(id, ids, threshold, n)
 	// if err != nil {
 	// 	return err
 	// }
+	// fmt.Println("result from keygen: ", frostResult)
 
 	// FROST KEYGEN TAPROOT
 	frostResultTaproot, err := FrostKeygenTaproot(id, ids, threshold, n)
@@ -211,7 +213,7 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 		return err
 	}
 
-	fmt.Println("result from keygen: ", frostResultTaproot)
+	fmt.Println("result from keygen taproot: ", frostResultTaproot)
 	signers := ids[:threshold+1]
 	if !signers.Contains(id) {
 		n.Quit(id)
@@ -243,10 +245,10 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	// }
 
 	// FROST SIGN TAPROOT
-	// err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
-	// if err != nil {
-	// 	return err
-	// }
+	err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

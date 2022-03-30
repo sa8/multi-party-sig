@@ -104,7 +104,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// 1. "Each P_i securely sends to each other participant Pₗ a secret share
 	// (l, fᵢ(l)), deleting f_i and each share afterward except for (i, fᵢ(i)),
 	// which they keep for themselves."
-
+	fmt.Println("starting round 2")
 	if err := r.BroadcastMessage(out, &broadcast3{
 		C_l:          r.ChainKeys[r.SelfID()],
 		Decommitment: r.ChainKeyDecommitment,

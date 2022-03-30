@@ -55,7 +55,7 @@ func (r *round5) VerifyMessage(msg round.Message) error {
 // Finalize implements round.Round.
 func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 	r.startTime = time.Now()
-
+	fmt.Println("round 5 start: ", r.startTime)
 	// 3. "Each P_i calculates their long-lived private signing share by computing
 	// sᵢ = ∑ₗ₌₁ⁿ fₗ(i), stores s_i securely, and deletes each fₗ(i)"
 	for l, f_li := range r.shareFrom {
@@ -91,6 +91,7 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 		r.verificationShares[k] = v.Add(verificationExponent.Evaluate(k.Scalar(r.Group())))
 	}
 	//fmt.Println("Public key: ",r.SelfID(),r.publicKey)
+	fmt.Println("Keygen result: ", r.publicKey.(*curve.Secp256k1Point).XBytes()[:])
 	if r.taproot {
 		// BIP-340 adjustment: If our public key is odd, then the underlying secret
 		// needs to be negated. Since this secret is ∑ᵢ aᵢ₀, we can negated each

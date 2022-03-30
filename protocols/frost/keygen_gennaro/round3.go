@@ -70,8 +70,8 @@ func (r *round3) VerifyMessage(msg round.Message) error {
 
 // Finalize implements round.Round.
 func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
-    r.startTime = time.Now()
-
+    //r.startTime = time.Now()
+    fmt.Println("Starting round 3", r.SelfID())
     // 4. "Every Pᵢ broadcasts its complaints
     err := r.BroadcastMessage(out, &broadcast4{
         complaints: r.mps,
@@ -86,6 +86,7 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
         round3:    r,
         complaints: map[party.ID]*curve.Scalar{r.SelfID(): nil},
         proofs: proofs,
+        startTime: time.Now(),
     }, nil
 }
 

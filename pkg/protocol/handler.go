@@ -13,7 +13,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
-var timeOut = (time.Second) * 5
+var timeOut = (time.Second) * 3
 
 // StartFunc is function that creates the first round of a protocol.
 // It returns the first round initialized with the session information.
@@ -34,6 +34,8 @@ type Handler interface {
 	CanAccept(msg *Message) bool
 	// Accept advances the protocol execution after receiving a message.
 	Accept(msg *Message)
+	// timeoutExpired checks if you have expired our time out for this round and move to the next round if so
+	TimeOutExpired()
 }
 
 // MultiHandler represents an execution of a given protocol.
@@ -63,6 +65,7 @@ func NewMultiHandler(create StartFunc, sessionID []byte) (*MultiHandler, error) 
 		broadcast:       newQueue(r.OtherPartyIDs(), r.FinalRoundNumber()),
 		broadcastHashes: map[round.Number][]byte{},
 		out:             make(chan *Message, 2*r.N()),
+		//timeouts:        map[round.Number]time.Timer(r.Number(): time.NewTimer(timeOut)),
 	}
 	h.finalize()
 	return h, nil
@@ -165,8 +168,28 @@ func (h *MultiHandler) Accept(msg *Message) {
 			return
 		}
 	}
-	fmt.Println("Calling finalize")
+	//fmt.Println("Calling finalize")
 	h.finalize()
+}
+
+func (h *MultiHandler) TimeOutExpired() {
+	r := h.currentRound
+	//check the time when the protocol started
+	t1 := r.StartTime()
+	t2 := time.Now()
+	number := r.Number()
+	//fmt.Println("t1: ", t1, number)
+	if  t2.Sub(t1) < timeOut {
+		return 
+	}
+	fmt.Println("timeOutDone round: ", r.Number())
+	//fmt.Println("time start time for that round",t1)
+	fmt.Println("time out done for round:", number)
+
+	h.timeOutFinalize()
+	// need to call finalize her
+	return 
+
 }
 
 func (h *MultiHandler) verifyBroadcastMessage(msg *Message) error {
@@ -238,23 +261,29 @@ func (h *MultiHandler) finalize() {
 	// if !h.receivedAll() {
 	// 	return
 	// }
-
+	//fmt.Println("current round: ", h.currentRound.Number(), h.currentRound.SelfID())
 	// we replace the above (only finalize if we have received all messages)
 	// with do not finalize before some timeout has expired.
-	if !h.timeOutDone() && !h.receivedAll() {
-		if !h.timeOutDone() {fmt.Println("time out not done ")}
-		if !h.receivedAll() {fmt.Println("time out not done ")}
+	//fmt.Println("we are inside finalize")
+	if !h.receivedAll() {
+	//if !h.receivedAll() {
+		//fmt.Println("not finalizing")
 		return
 	}
+
+	//here close the timeout channel for this round
+	//close(h.timeout)
 
 	if !h.checkBroadcastHash() {
 		h.abort(errors.New("broadcast verification failed"))
 		return
 	}
 
+
 	out := make(chan *round.Message, h.currentRound.N()+1)
 	// since we pass a large enough channel, we should never get an error
 	r, err := h.currentRound.Finalize(out)
+	//fmt.Println("finalizing", r.SelfID())
 	close(out)
 	// either we got an error due to some problem on our end (sampling etc)
 	// or the new round is nil (should not happen)
@@ -285,7 +314,99 @@ func (h *MultiHandler) finalize() {
 		h.out <- msg
 	}
 
-	roundNumber := r.Number()
+	roundNumber := r.Number() // r is the output from finalize so this is now the next round
+	// if we get a round with the same number, we can safely assume that we got the same one.
+	if _, ok := h.rounds[roundNumber]; ok {
+		return
+	}
+	h.rounds[roundNumber] = r
+	h.currentRound = r
+
+	// either we get the current round, the next one, or one of the two final ones
+	switch R := r.(type) {
+	// An abort happened
+	case *round.Abort:
+		h.abort(R.Err, R.Culprits...)
+		return
+	// We have the result
+	case *round.Output:
+		h.result = R.Result
+		h.abort(nil)
+		return
+	default:
+	}
+
+	if _, ok := r.(round.BroadcastRound); ok {
+		// handle queued broadcast messages, which will then check the subsequent normal message
+		for id, m := range h.broadcast[roundNumber] {
+			if m == nil || id == r.SelfID() {
+				continue
+			}
+			// if false, we aborted and so we return
+			if err = h.verifyBroadcastMessage(m); err != nil {
+				h.abort(err, m.From)
+				return
+			}
+		}
+	} else {
+		// handle simple queued messages
+		for _, m := range h.messages[roundNumber] {
+			if m == nil {
+				continue
+			}
+			// if false, we aborted and so we return
+			if err = h.verifyMessage(m); err != nil {
+				h.abort(err, m.From)
+				return
+			}
+		}
+	}
+
+	// we only do this if the current round has changed
+	h.finalize()
+}
+
+func (h *MultiHandler) timeOutFinalize() {
+
+	if !h.checkBroadcastHash() {
+		h.abort(errors.New("broadcast verification failed"))
+		return
+	}
+	out := make(chan *round.Message, h.currentRound.N()+1)
+	// since we pass a large enough channel, we should never get an error
+	r, err := h.currentRound.Finalize(out)
+	//fmt.Println("finalizing", r.SelfID())
+	close(out)
+	// either we got an error due to some problem on our end (sampling etc)
+	// or the new round is nil (should not happen)
+	if err != nil || r == nil {
+		h.abort(err, h.currentRound.SelfID())
+		return
+	}
+
+	// forward messages with the correct header.
+	for roundMsg := range out {
+		data, err := cbor.Marshal(roundMsg.Content)
+		if err != nil {
+			panic(fmt.Errorf("failed to marshal round message: %w", err))
+		}
+		msg := &Message{
+			SSID:                  r.SSID(),
+			From:                  r.SelfID(),
+			To:                    roundMsg.To,
+			Protocol:              r.ProtocolID(),
+			RoundNumber:           roundMsg.Content.RoundNumber(),
+			Data:                  data,
+			Broadcast:             roundMsg.Broadcast,
+			BroadcastVerification: h.broadcastHashes[r.Number()-1],
+		}
+		if msg.Broadcast {
+			h.store(msg)
+		}
+		h.out <- msg
+	}
+
+	roundNumber := r.Number() // r is the output from finalize so this is now the next round
 	// if we get a round with the same number, we can safely assume that we got the same one.
 	if _, ok := h.rounds[roundNumber]; ok {
 		return
@@ -373,9 +494,14 @@ func (h *MultiHandler) timeOutDone() bool {
 	//check the time when the protocol started
 	t1 := r.StartTime()
 	t2 := time.Now()
+	number := r.Number()
+	fmt.Println("t1: ", t1, number)
 	if  t2.Sub(t1) < timeOut {
 		return false
 	}
+	fmt.Println("timeOutDone round: ", r.Number())
+	//fmt.Println("time start time for that round",t1)
+	fmt.Println("time out done for round:", number)
 	return true
 }
 
@@ -419,6 +545,7 @@ func (h *MultiHandler) receivedAll() bool {
 			}
 		}
 	}
+	fmt.Println("all messages received for round:", number)
 	return true
 }
 

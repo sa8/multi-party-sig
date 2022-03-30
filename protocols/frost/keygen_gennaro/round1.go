@@ -3,7 +3,7 @@ package keygen_gennaro
 import (
 	"crypto/rand"
 	"time"
-	//"fmt"
+	"fmt"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -62,7 +62,8 @@ func (r *round1) StoreMessage(round.Message) error { return nil }
 // sharing of that value, and then send commitments to these values.
 func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	//r.timer := time.NewTimer(time.Second * 10)
-	r.startTime = time.Now()
+	fmt.Println("Starting round 1", r.SelfID())
+	
 	group := r.Group()
 	// These steps come from Figure 1, Round 1 of the Frost paper.
 
@@ -88,11 +89,13 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
     }
     selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
     //3. Every participant computes ph_i == <f_ij G>
-	
+	startTime := time.Now()
+
 	return &round2{
 		round1:               r,
 		f_i:                  f_i,
 	    shareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
+	    startTime:            startTime,
 	}, nil
 }
 
