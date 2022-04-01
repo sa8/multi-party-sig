@@ -42,6 +42,7 @@ type broadcast2 struct {
 	Sigma_i *sch.Proof
 	// Commitment = H(cᵢ, uᵢ)
 	Commitment hash.Commitment
+	test string
 }
 
 // StoreBroadcastMessage implements round.BroadcastRound.
@@ -51,7 +52,7 @@ func (r *round2) StoreBroadcastMessage(msg round.Message) error {
 	if !ok || body == nil {
 		return round.ErrInvalidContent
 	}
-
+	fmt.Println("Received in round 2: ", body, "from", from)
 	// check nil
 	if (!r.refresh && !body.Sigma_i.IsValid()) || body.Phi_i == nil {
 		return round.ErrNilFields

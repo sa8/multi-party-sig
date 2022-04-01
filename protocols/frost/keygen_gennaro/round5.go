@@ -9,15 +9,21 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/math/polynomial"
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
+// step 5 of Figure 3 of the DKG in the Pikachu paper
+// remove participants who have not replied to complaints
 
 type broadcast5 struct {
 	round.ReliableBroadcastContent
 	// Phi_i is the commitment to the polynomial that this participant generated.
 	proofs []proof
+	//Complaints map[party.ID]*curve.Scalar
+	//Complaints []party.ID
 }
 
 type round5 struct {
 	*round4
+	//Complaints map[party.ID]*curve.Scalar
+	ShareFrom map[party.ID]curve.Scalar
 	startTime time.Time
 }
 
@@ -31,19 +37,24 @@ func (r *round5) StoreBroadcastMessage(msg round.Message) error {
 	if !ok || body == nil {
 		return round.ErrInvalidContent
 	}
-
+	fmt.Println("round 5 body",body)
+	// r.Complaints = make(map[party.ID]*curve.Scalar)
+	// for key, value := range body.Complaints {
+ //  		r.Complaints[key] = value
+	// 	}
     for _, c := range body.proofs {
-        if c.id == r.SelfID() && r.complaints[from] != nil{
+        if c.id == r.SelfID() && r.Complaints[from] != ""{
             expected := c.value.ActOnBase()
             actual := r.Phi[from].Evaluate(r.SelfID().Scalar(r.Group()))
             if expected.Equal(actual) {
-                r.shareFrom[from] = c.value
-                r.complaints[from] = nil
+                r.ShareFrom[from] = c.value
+                r.Complaints[from] = ""
             }else {
                 fmt.Println("still wrong!!")
             }
         }
     }
+
 	return nil
 }
 
@@ -55,14 +66,15 @@ func (r *round5) VerifyMessage(msg round.Message) error {
 // Finalize implements round.Round.
 func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 	r.startTime = time.Now()
-	fmt.Println("round 5 start: ", r.startTime)
 	// 3. "Each P_i calculates their long-lived private signing share by computing
 	// sᵢ = ∑ₗ₌₁ⁿ fₗ(i), stores s_i securely, and deletes each fₗ(i)"
-	for l, f_li := range r.shareFrom {
-	    if r.complaints[l] == nil {
+	fmt.Println("round 5 sharefrom", r.ShareFrom)
+	fmt.Println("round 5 complaints", r.Complaints)
+	for l, f_li := range r.ShareFrom {
+	    if r.Complaints[l] == "" {
 		    r.privateShare.Add(f_li)
 		    // TODO: Maybe actually clear this in a better way
-		    delete(r.shareFrom, l)
+		    delete(r.ShareFrom, l)
 		}
 	}
 
@@ -71,12 +83,14 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 	// can compute the verification share of any other participant by calculating
 	//
 	// Yᵢ = ∑ⱼ₌₁ⁿ ∑ₖ₌₀ᵗ (iᵏ mod q) * ϕⱼₖ."
-
+	fmt.Println("round 5 phi", r.Phi)
 	for l, phi_j := range r.Phi {
-	    if r.complaints[l] == nil {
+	    if r.Complaints[l] == "" {
+	    	fmt.Println("Including ",l)
 		    r.publicKey = r.publicKey.Add(phi_j.Constant())
 		}
 	}
+	fmt.Println("Complaints from round 5: ", r.Complaints)
 	// This accomplishes the same sum as in the paper, by first summing
 	// together the exponent coefficients, and then evaluating.
 	exponents := make([]*polynomial.Exponent, 0, r.PartyIDs().Len())

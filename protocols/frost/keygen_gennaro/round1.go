@@ -65,7 +65,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	fmt.Println("Starting round 1", r.SelfID())
 	
 	group := r.Group()
-	// These steps come from Figure 1, Round 1 of the Frost paper.
+	// These steps come from Figure 3, step 1 of the Pikachu paper.
 
 	// 1. "Every participant P_i samples t + 1 random values (aᵢ₀, ..., aᵢₜ)) <-$ Z/(q)
 	// and uses these values as coefficients to define a degree t polynomial
@@ -77,24 +77,41 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if !r.refresh {
 		a_i0 = sample.Scalar(rand.Reader, r.Group())
 	}
-	f_i := polynomial.NewPolynomial(r.Group(), r.threshold, a_i0)
+	F_i := polynomial.NewPolynomial(r.Group(), r.threshold, a_i0)
 
 	// 2. "Every P_i computes s_{i,j} = f_i(j)"
-    for _, l := range r.OtherPartyIDs() {
-        if err := r.SendMessage(out, &message2{
-            F_li: f_i.Evaluate(l.Scalar(r.Group())),
-        }, l); err != nil {
-            return r, err
-        }
-    }
-    selfShare := f_i.Evaluate(r.SelfID().Scalar(r.Group()))
+	//consider the cheating case for testing purpose:
+	if r.SelfID() == "cheater"{
+		fmt.Println("There is a cheater")
+		for _, l := range r.OtherPartyIDs() {
+			lprime := party.ID("cheater")
+			//fmt.Println("cheater value",F_i.Evaluate(lprime.Scalar(r.Group())))
+	        if err := r.SendMessage(out, &message2{
+	            F_li: F_i.Evaluate(lprime.Scalar(r.Group())),
+	        }, l); err != nil {
+	            return r, err
+	        }
+	    }
+	} else if r.SelfID() != "cheater" && r.SelfID() != "abort" {
+	    for _, l := range r.OtherPartyIDs() {
+	    	fmt.Println("others value",F_i.Evaluate(l.Scalar(r.Group())))
+	        if err := r.SendMessage(out, &message2{
+	            F_li: F_i.Evaluate(l.Scalar(r.Group())),
+	        }, l); err != nil {
+	            return r, err
+	        }
+	    }
+
+	}
+
+    selfShare := F_i.Evaluate(r.SelfID().Scalar(r.Group()))
     //3. Every participant computes ph_i == <f_ij G>
 	startTime := time.Now()
 
 	return &round2{
 		round1:               r,
-		f_i:                  f_i,
-	    shareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
+		F_i:                  F_i,
+	    ShareFrom: map[party.ID]curve.Scalar{r.SelfID(): selfShare},
 	    startTime:            startTime,
 	}, nil
 }

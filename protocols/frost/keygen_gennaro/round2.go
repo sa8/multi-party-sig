@@ -15,16 +15,16 @@ type message2 struct {
 	// F_li is the secret share sent from party l to this party.
 	F_li curve.Scalar
 }
-// this step corresponds to step 2 in the DKG figure of the pikachu paper
+// this step corresponds to step 2 in the DKG figure of the pikachu paper (broadcast commitments)
 type round2 struct {
 	*round1
 	// f_i is the polynomial this participant uses to share their contribution to
 	// the secret
-	f_i *polynomial.Polynomial
+	F_i *polynomial.Polynomial
     // shareFrom is the secret share sent to us by a given party, including ourselves.
     //
     // shareFrom[l] corresponds to fₗ(i) in the Frost paper, with i our own ID.
-    shareFrom map[party.ID]curve.Scalar
+    ShareFrom map[party.ID]curve.Scalar
 
     startTime time.Time
 }
@@ -32,25 +32,28 @@ type round2 struct {
 func (round2) Number() round.Number { return 2 }
 
 func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
-	//r.startTime = time.Now()
+	//This is step 2 in the Pikachu paper
 	fmt.Println("Starting round 2", r.SelfID())
-    Phi_i := polynomial.NewPolynomialExponent(r.f_i)
+    Phi_i := polynomial.NewPolynomialExponent(r.F_i)
 
 	// 4. "Every Pᵢ broadcasts phi_i
 	err := r.BroadcastMessage(out, &broadcast3{
 		Phi_i:      Phi_i,
+		Test: "test",
 	})
 	if err != nil {
 		return r, err
 	}
 
-	var cmp []complaint
+	var Cmp []Complaint
 
 
 	return &round3{
 		round2:    r,
 		Phi:  map[party.ID]*polynomial.Exponent{r.SelfID(): Phi_i},
-		mps: cmp,
+		Mps: Cmp,
+		F_i: r.F_i,
+		ShareFrom: r.ShareFrom,
 		startTime: time.Now(),
 	}, nil
 }
@@ -77,7 +80,7 @@ func (r *round2) VerifyMessage(msg round.Message) error {
 func (r *round2) StoreMessage(msg round.Message) error {
 	from, body := msg.From, msg.Content.(*message2)
 
-	r.shareFrom[from] = body.F_li
+	r.ShareFrom[from] = body.F_li
 	return nil
 }
 

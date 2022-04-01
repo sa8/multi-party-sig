@@ -13,7 +13,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
-var timeOut = (time.Second) * 3
+var timeOut = (time.Second) * 5
 
 // StartFunc is function that creates the first round of a protocol.
 // It returns the first round initialized with the session information.
@@ -271,8 +271,6 @@ func (h *MultiHandler) finalize() {
 		return
 	}
 
-	//here close the timeout channel for this round
-	//close(h.timeout)
 
 	if !h.checkBroadcastHash() {
 		h.abort(errors.New("broadcast verification failed"))

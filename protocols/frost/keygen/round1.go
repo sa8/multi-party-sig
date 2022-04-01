@@ -130,7 +130,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if err != nil {
 		return r, err
 	}
-
+	fmt.Println("Sent in round 1:", Phi_i, Sigma_i, commitment, "by", r.SelfID())
 	return &round2{
 		round1:               r,
 		f_i:                  f_i,

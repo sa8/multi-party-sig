@@ -245,17 +245,17 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	// }
 
 	// FROST SIGN TAPROOT
-	err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
-	if err != nil {
-		return err
-	}
+	// err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
+	// if err != nil {
+	// 	return err
+	// }
 
-	return nil
+	 return nil
 }
 
 func main() {
 
-	ids := party.IDSlice{"a", "b", "c", "d", "e", "f"}
+	ids := party.IDSlice{"a", "b", "c", "d", "e", "cheater"}
 	threshold := 4
 	messageToSign := []byte("hello")
 
@@ -273,4 +273,19 @@ func main() {
 		}(id)
 	}
 	wg.Wait()
+
+	// ids = party.IDSlice{"a", "b", "c", "d", "e", "cheater"}
+	// net = test.NewNetwork(ids)
+
+	// for _, id := range ids {
+	// 	wg.Add(1)
+	// 	go func(id party.ID) {
+	// 		pl := pool.NewPool(0)
+	// 		defer pl.TearDown()
+	// 		if err := All(id, ids, threshold, messageToSign, net, &wg, pl); err != nil {
+	// 			fmt.Println(err)
+	// 		}
+	// 	}(id)
+	// }
+	// wg.Wait()
 }
