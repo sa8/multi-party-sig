@@ -159,7 +159,7 @@ func SignTaprootWithTweak(config *TaprootConfig, signers []party.ID, messageHash
 	for k, v := range config.VerificationShares {
 		genericVerificationShares[k] = v
 	}
-	normalResult := &keygen.Config{
+	normalResult := &keygen_gennaro.Config{
 		ID:                 config.ID,
 		Threshold:          config.Threshold,
 		PrivateShare:       config.PrivateShare,

@@ -90,6 +90,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// state after H(m, B), instead of rehashing them each time.
 	//
 	// We also use a hash of the message, instead of the message directly.
+	fmt.Println("Starting round2", r.SelfID())
 
 	rho := make(map[party.ID]curve.Scalar)
 	// This calculates H(m, B), allowing us to avoid re-hashing this data for

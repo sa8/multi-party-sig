@@ -36,6 +36,7 @@ func StartSignCommon(taproot bool, result *keygen.Config, signers []party.ID, me
 		if err != nil {
 			return nil, fmt.Errorf("sign.StartSign: %w", err)
 		}
+		fmt.Println("Parties:", signers)
 		return &round1{
 			Helper:  helper,
 			taproot: taproot,

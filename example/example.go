@@ -214,9 +214,11 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	}
 
 	fmt.Println("result from keygen taproot: ", frostResultTaproot)
-	signers := ids[:threshold+1]
+	//signers := ids[:threshold+1]
+	signers := party.IDSlice{"a", "b", "c", "d", "e"}
 	if !signers.Contains(id) {
 		n.Quit(id)
+		fmt.Println("I quit", id)
 		return nil
 	}
 
@@ -244,11 +246,11 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	// 	return err
 	// }
 
-	// FROST SIGN TAPROOT
-	// err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
-	// if err != nil {
-	// 	return err
-	// }
+	//FROST SIGN TAPROOT
+	err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
+	if err != nil {
+		return err
+	}
 
 	 return nil
 }

@@ -42,6 +42,7 @@ type broadcast3 struct {
 
 // StoreBroadcastMessage implements round.BroadcastRound.
 func (r *round3) StoreBroadcastMessage(msg round.Message) error {
+	fmt.Println("Storing broadcast3 message", r.SelfID())
 	from := msg.From
 	body, ok := msg.Content.(*broadcast3)
 	if !ok || body == nil {
@@ -87,6 +88,7 @@ func (round3) StoreMessage(round.Message) error { return nil }
 // Finalize implements round.Round.
 func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	// These steps come from Figure 3 of the Frost paper.
+	fmt.Println("Starting round3", r.SelfID())
 
 	// 7.c "Compute the group's response z = ∑ᵢ zᵢ"
 	z := r.Group().NewScalar()

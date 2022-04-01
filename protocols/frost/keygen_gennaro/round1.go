@@ -98,6 +98,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	        if err := r.SendMessage(out, &message2{
 	            F_li: F_i.Evaluate(l.Scalar(r.Group())),
 	        }, l); err != nil {
+	        	fmt.Println("here")
 	            return r, err
 	        }
 	    }

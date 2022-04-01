@@ -6,7 +6,7 @@ import (
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/party"
 	"github.com/sa8/multi-party-sig/pkg/protocol"
-	"github.com/sa8/multi-party-sig/protocols/frost/keygen"
+	"github.com/sa8/multi-party-sig/protocols/frost/keygen_gennaro"
 )
 
 const (
@@ -17,7 +17,7 @@ const (
 	protocolRounds round.Number = 3
 )
 
-func StartSignCommonTweak(taproot bool, result *keygen.Config, signers []party.ID, messageHash []byte, tweak []byte) protocol.StartFunc {
+func StartSignCommonTweak(taproot bool, result *keygen_gennaro.Config, signers []party.ID, messageHash []byte, tweak []byte) protocol.StartFunc {
 	return func(sessionID []byte) (round.Session, error) {
 		info := round.Info{
 			FinalRoundNumber: protocolRounds,

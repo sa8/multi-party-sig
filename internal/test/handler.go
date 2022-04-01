@@ -50,3 +50,4 @@ func HandlerLoop(id party.ID, h protocol.Handler, network *Network) {
 		}
 	}
 }
+

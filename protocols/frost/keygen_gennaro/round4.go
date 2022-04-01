@@ -111,6 +111,7 @@ func (r *round4) BroadcastContent() round.BroadcastContent {
     return &broadcast4{
     		//ComplaintsRound4: make([]Complaint,0),
             //ComplaintsRound4: make(map[party.ID]*curve.Scalar),
+            ComplaintsRound4: make([]string,0),
             Test: "empty test",
     }
 }
