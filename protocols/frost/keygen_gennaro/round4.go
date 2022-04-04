@@ -2,7 +2,7 @@ package keygen_gennaro
 
 import (
     "time"
-    "fmt"
+    //"fmt"
   //  "reflect"
 
     "github.com/sa8/multi-party-sig/pkg/math/polynomial"
@@ -22,7 +22,6 @@ type broadcast4 struct {
 	round.ReliableBroadcastContent
     //ComplaintsRound4 map[party.ID]*curve.Scalar
     ComplaintsRound4 []string
-    Test string
 }
 
 
@@ -49,15 +48,18 @@ func (r *round4) StoreBroadcastMessage(msg round.Message) error {
 		return round.ErrInvalidContent
 	}
 
-    fmt.Println("Body complaints, round 4: ", body, "from", from, "myself", r.SelfID())
+    // fmt.Println("Body complaints, round 4: ", body.ComplaintsRound4, "from", from, "myself", r.SelfID())
+    // fmt.Println("Complaints map: ", r.Complaints)
+
     for _, c := range body.ComplaintsRound4{
         if c == string(r.SelfID()) && r.SelfID() != "cheater"{
             r.Proofs = append(r.Proofs,proof{id: from, value: r.F_i.Evaluate(from.Scalar(r.Group()))})
         } else {
             //r.Complaints = append(r.Complaints, party.ID(c))
-            r.Complaints[party.ID(c)] = "cheater"
+            if len(c)>0 { r.Complaints[party.ID(c)] = "cheater"}
         }
     }
+
     // check if someone sent a complaint about us
         // for key, v := range body.ComplaintsRound4 {
         // //for c := range body.complaints {
@@ -83,7 +85,7 @@ func (r *round4) VerifyMessage(msg round.Message) error {
 func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
     r.startTime = time.Now()
     // 4. "Every Pᵢ broadcasts phi_i
-    fmt.Println("Starting round 4", r.SelfID(), "complaints", r.Complaints)
+    //fmt.Println("Starting round 4", r.SelfID(), "complaints", r.Complaints)
     
     if r.SelfID()!= "cheater" && r.SelfID()!= "abort"{
         err := r.BroadcastMessage(out, &broadcast5{
@@ -112,7 +114,6 @@ func (r *round4) BroadcastContent() round.BroadcastContent {
     		//ComplaintsRound4: make([]Complaint,0),
             //ComplaintsRound4: make(map[party.ID]*curve.Scalar),
             ComplaintsRound4: make([]string,0),
-            Test: "empty test",
     }
 }
 

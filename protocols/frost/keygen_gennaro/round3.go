@@ -20,7 +20,6 @@ type broadcast3 struct {
 	round.ReliableBroadcastContent
 	// Phi_i is the commitment to the polynomial that this participant generated.
 	Phi_i *polynomial.Exponent
-    Test string
 }
 
 
@@ -47,7 +46,7 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 		r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
 		return nil
 	}
-    fmt.Println("MESSAGE received in round3: ", body, "from", from)
+   
     // "Each Pᵢ verifies their shares by calculating
     //
     //   fₗ(i) * G =? ∑ₖ₌₀ᵗ (iᵏ mod q) * ϕₗₖ
@@ -88,7 +87,7 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
         complaintsRound4 = []string{string(r.Mps[0].Id)}
     } 
 
-    err := r.BroadcastMessage(out, &broadcast4{ComplaintsRound4: complaintsRound4, Test: "test-test"})
+    err := r.BroadcastMessage(out, &broadcast4{ComplaintsRound4: complaintsRound4})
     if err != nil {
         //fmt.Println("error in broadcast4")
         return r, err
@@ -115,7 +114,6 @@ func (broadcast3) RoundNumber() round.Number { return 3 }
 func (r *round3) BroadcastContent() round.BroadcastContent {
     return &broadcast3{
     		Phi_i:   polynomial.EmptyExponent(r.Group()),
-            Test: "empty test",
     }
 }
 

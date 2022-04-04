@@ -39,7 +39,6 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// 4. "Every Pᵢ broadcasts phi_i
 	err := r.BroadcastMessage(out, &broadcast3{
 		Phi_i:      Phi_i,
-		Test: "test",
 	})
 	if err != nil {
 		return r, err

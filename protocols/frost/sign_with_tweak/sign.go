@@ -36,6 +36,7 @@ func StartSignCommonTweak(taproot bool, result *keygen_gennaro.Config, signers [
 		if err != nil {
 			return nil, fmt.Errorf("sign.StartSign: %w", err)
 		}
+		fmt.Println("Parties:", signers)
 
 		return &round1{
 			Helper:  helper,

@@ -42,13 +42,13 @@ type broadcast3 struct {
 
 // StoreBroadcastMessage implements round.BroadcastRound.
 func (r *round3) StoreBroadcastMessage(msg round.Message) error {
-	fmt.Println("Storing broadcast3 message", r.SelfID())
+	
 	from := msg.From
 	body, ok := msg.Content.(*broadcast3)
 	if !ok || body == nil {
 		return round.ErrInvalidContent
 	}
-
+	fmt.Println("Storing broadcast3 message", r.SelfID(), body)
 	// check nil
 	if body.Z_i == nil {
 		return round.ErrNilFields
@@ -75,6 +75,7 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 	}
 
 	r.z[from] = body.Z_i
+	fmt.Println("end broadcast 3")
 
 	return nil
 }
@@ -95,23 +96,24 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	for _, z_l := range r.z {
 		z.Add(z_l)
 	}
-
+	
 	// The format of our signature depends on using taproot, naturally
 	if r.taproot {
 		sig := taproot.Signature(make([]byte, 0, taproot.SignatureLen))
 		sig = append(sig, r.R.(*curve.Secp256k1Point).XBytes()...)
 		zBytes, err := z.MarshalBinary()
+		
 		if err != nil {
 			return r, err
 		}
 		sig = append(sig, zBytes[:]...)
-
+		
 		taprootPub := taproot.PublicKey(r.Y.(*curve.Secp256k1Point).XBytes())
-
+		fmt.Println("taprootPub, ", r.SelfID(), taprootPub)
 		if !taprootPub.Verify(sig, r.M) {
 			return r.AbortRound(fmt.Errorf("generated signature failed to verify")), nil
 		}
-
+		fmt.Println("end round 3 ", r.SelfID())
 		return r.ResultRound(sig), nil
 	} else {
 		sig := Signature{

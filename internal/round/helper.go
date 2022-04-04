@@ -188,6 +188,7 @@ func (h *Helper) Hash() *hash.Hash {
 // ResultRound returns a round that contains only the result of the protocol.
 // This indicates to the used that the protocol is finished.
 func (h *Helper) ResultRound(result interface{}) Session {
+	fmt.Println("Protocol done", result)
 	return &Output{
 		Helper: h,
 		Result: result,

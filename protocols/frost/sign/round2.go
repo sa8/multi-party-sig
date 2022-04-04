@@ -162,7 +162,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if err != nil {
 		return r, err
 	}
-
+	fmt.Println("Finished round2 ", r.SelfID())
 	return &round3{
 		round2:  r,
 		R:       R,

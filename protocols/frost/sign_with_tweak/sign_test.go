@@ -16,7 +16,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/math/sample"
 	"github.com/sa8/multi-party-sig/pkg/party"
 	"github.com/sa8/multi-party-sig/pkg/taproot"
-	"github.com/sa8/multi-party-sig/protocols/frost/keygen"
+	keygen "github.com/sa8/multi-party-sig/protocols/frost/keygen_gennaro"
 )
 
 func checkOutput(t *testing.T, rounds []round.Session, public curve.Point, m []byte) {
