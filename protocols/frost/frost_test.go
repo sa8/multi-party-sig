@@ -6,10 +6,11 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/cronokirby/safenum"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/sa8/multi-party-sig/internal/test"
-	//"github.com/sa8/multi-party-sig/pkg/math/curve"
+	"github.com/sa8/multi-party-sig/pkg/math/curve"
 	"github.com/sa8/multi-party-sig/pkg/party"
 	"github.com/sa8/multi-party-sig/pkg/protocol"
 	"github.com/sa8/multi-party-sig/pkg/taproot"
@@ -73,18 +74,59 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 		//h, err = protocol.NewMultiHandler(SignTaproot(c0Taproot, signers, message), nil)
 		require.NoError(t, err)
 
-		test.HandlerLoop(c0Taproot.ID, h, n)
+		test.HandlerLoop(id, h, n)
 
 		signResult, err := h.Result()
 		fmt.Println("signing result:", signResult)
 		require.NoError(t, err)
 		require.IsType(t, taproot.Signature{}, signResult)
 		taprootSignature := signResult.(taproot.Signature)
-		assert.True(t, c0Taproot.PublicKey.Verify(taprootSignature, message))
+
+		// for tweak case, we update the public key with the tweak key instead
+		//assert.True(t, c0Taproot.PublicKey.Verify(taprootSignature, message))
+	 	public := []byte(c0Taproot.PublicKey)
+	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
+	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
+	 //    public := []byte(c0Taproot.PublicKey)
+	 //    group := curve.Secp256k1{}
+	 //    s_tweak := group.NewScalar().SetNat(new(safenum.Nat).SetBytes(tweak))
+	 //    p_tweak := s_tweak.ActOnBase()
+
+	 //    P, err := curve.Secp256k1{}.LiftX(public)
+	 //    require.NoError(t, err, "failed to process public key")
+
+	 //    Y_tweak := P.Add(p_tweak)
+	 //    YSecp := Y_tweak.(*curve.Secp256k1Point)
+	 //    if !YSecp.HasEvenY() {
+	 //        s_tweak.Negate()
+	 //        p_tweak := s_tweak.ActOnBase()
+	 //        Y_tweak = P.Negate().Add(p_tweak)
+	 //        YSecp = Y_tweak.(*curve.Secp256k1Point)
+	 //    }
+	 //    PBytes := taproot.PublicKey(YSecp.XBytes())
+		// assert.True(t, PBytes.Verify(taprootSignature, message))
 	} else {n.Quit(id)}
 
 }
+func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
+    group := curve.Secp256k1{}
+    s_tweak := group.NewScalar().SetNat(new(safenum.Nat).SetBytes(tweak))
+    p_tweak := s_tweak.ActOnBase()
 
+    P, err := curve.Secp256k1{}.LiftX(public)
+    require.NoError(t, err, "failed to process public key")
+
+    Y_tweak := P.Add(p_tweak)
+    YSecp := Y_tweak.(*curve.Secp256k1Point)
+    if !YSecp.HasEvenY() {
+        s_tweak.Negate()
+        p_tweak := s_tweak.ActOnBase()
+        Y_tweak = P.Negate().Add(p_tweak)
+        YSecp = Y_tweak.(*curve.Secp256k1Point)
+    }
+    PBytes := YSecp.XBytes()
+    return PBytes
+}
 func TestFrost(t *testing.T) {
 	N := 6
 	T := N - 2
