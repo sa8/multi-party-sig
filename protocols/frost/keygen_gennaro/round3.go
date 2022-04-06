@@ -3,7 +3,6 @@ package keygen_gennaro
 import (
 	"fmt"
     "time"
-    "reflect"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -55,7 +54,6 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
     actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
     if !expected.Equal(actual) {
         fmt.Println("VSS failed to validate from ", from)
-        fmt.Println(reflect.TypeOf(r.ShareFrom[from]))
         r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
     }
 
@@ -82,7 +80,6 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
     //     complaintsRound4[c.Id] = &c.Value
     // }
     complaintsRound4 := []string{""}
-    fmt.Println(reflect.TypeOf(complaintsRound4))
     if len(r.Mps) >0 {
         complaintsRound4 = []string{string(r.Mps[0].Id)}
     } 
@@ -94,7 +91,6 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
     }
 
     var proofs []proof
-    fmt.Println("Finished round 3", r.SelfID())
     return &round4{
         round3:    r,
         //Complaints: map[party.ID]*curve.Scalar{r.SelfID(): nil},

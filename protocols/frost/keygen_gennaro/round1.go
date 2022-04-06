@@ -94,7 +94,6 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	    }
 	} else if r.SelfID() != "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" && r.SelfID() != "abort" {
 	    for _, l := range r.OtherPartyIDs() {
-	    	fmt.Println("others value",F_i.Evaluate(l.Scalar(r.Group())))
 	        if err := r.SendMessage(out, &message2{
 	            F_li: F_i.Evaluate(l.Scalar(r.Group())),
 	        }, l); err != nil {

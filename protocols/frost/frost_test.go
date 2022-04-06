@@ -135,7 +135,7 @@ func TestFrost(t *testing.T) {
 	// partyIDs := test.PartyIDs(N)
 	// fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "cheater"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 

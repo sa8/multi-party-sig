@@ -104,10 +104,12 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 	for k, v := range r.verificationShares {
 		if r.Complaints[k] == ""{
 			r.verificationShares[k] = v.Add(verificationExponent.Evaluate(k.Scalar(r.Group())))
+		} else {
+			delete(r.verificationShares,k)
 		}
 	}
-	fmt.Println("PrivateShare: ",r.SelfID(),r.privateShare)
-	fmt.Println("Keygen result: ", r.publicKey.(*curve.Secp256k1Point).XBytes()[:])
+	
+	//fmt.Println("Keygen result: ", r.publicKey.(*curve.Secp256k1Point).XBytes()[:])
 
 	if r.taproot {
 		// BIP-340 adjustment: If our public key is odd, then the underlying secret
@@ -129,6 +131,7 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 		for k, v := range r.verificationShares {
 			secpVerificationShares[k] = v.(*curve.Secp256k1Point)
 		}
+		//fmt.Println("verificationShares of ",r.SelfID(),": ",secpVerificationShares)
 		return r.ResultRound(&TaprootConfig{
 			ID:                 r.SelfID(),
 			Threshold:          r.threshold,
