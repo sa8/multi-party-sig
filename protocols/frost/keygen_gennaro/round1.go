@@ -81,7 +81,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 
 	// 2. "Every P_i computes s_{i,j} = f_i(j)"
 	//consider the cheating case for testing purpose:
-	if r.SelfID() == "cheater"{
+	if r.SelfID() == "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"{
 		fmt.Println("There is a cheater")
 		for _, l := range r.OtherPartyIDs() {
 			lprime := party.ID("cheater")
@@ -92,7 +92,7 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	            return r, err
 	        }
 	    }
-	} else if r.SelfID() != "cheater" && r.SelfID() != "abort" {
+	} else if r.SelfID() != "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" && r.SelfID() != "abort" {
 	    for _, l := range r.OtherPartyIDs() {
 	    	fmt.Println("others value",F_i.Evaluate(l.Scalar(r.Group())))
 	        if err := r.SendMessage(out, &message2{
