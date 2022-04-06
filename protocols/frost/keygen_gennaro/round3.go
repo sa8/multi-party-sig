@@ -50,11 +50,22 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
     //
     //   fₗ(i) * G =? ∑ₖ₌₀ᵗ (iᵏ mod q) * ϕₗₖ
     //
-    expected := r.ShareFrom[from].ActOnBase()
-    actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
-    if !expected.Equal(actual) {
-        fmt.Println("VSS failed to validate from ", from)
-        r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
+    // expected := r.ShareFrom[from].ActOnBase()
+    // actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
+    // if !expected.Equal(actual) {
+    //     fmt.Println("VSS failed to validate from ", from)
+    //     r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
+    // }
+    if _, ok := r.ShareFrom[from]; ok {
+        expected := r.ShareFrom[from].ActOnBase()
+        actual := body.Phi_i.Evaluate(r.SelfID().Scalar(r.Group()))
+        if !expected.Equal(actual) {
+            fmt.Println("VSS failed to validate from ", from)
+            r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
+        }
+    } else{
+        //r.Mps = append(r.Mps,Complaint{Id: from, Value: r.ShareFrom[from]})
+        r.Mps = append(r.Mps,Complaint{Id: from, Value: r.Group().NewScalar()})  
     }
 
     r.Phi[from] = body.Phi_i

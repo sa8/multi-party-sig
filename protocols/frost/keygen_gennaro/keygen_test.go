@@ -166,7 +166,7 @@ func TestKeygenTaproot(t *testing.T) {
 
 	checkOutputTaproot(t, rounds, partyIDs)
 
-	partyIDs = party.IDSlice{"a", "b", "c", "d", "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"}
+	partyIDs = party.IDSlice{"a", "b", "c", "d", "abort"}
 	rounds = make([]round.Session, 0, N)
 	for _, partyID := range partyIDs {
 		r, err := StartKeygenCommonGennaro(true, group, partyIDs, N-1, partyID, nil, nil, nil)(nil)

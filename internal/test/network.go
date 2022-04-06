@@ -2,7 +2,6 @@ package test
 
 import (
 	"sync"
-	"fmt"
 
 	"github.com/sa8/multi-party-sig/pkg/party"
 	"github.com/sa8/multi-party-sig/pkg/protocol"
