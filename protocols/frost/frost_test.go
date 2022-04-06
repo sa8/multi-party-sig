@@ -68,7 +68,13 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	// signature := signResult.(Signature)
 	// assert.True(t, signature.Verify(c.PublicKey, message))
 	signers := party.IDSlice{"a", "b", "c", "d", "e"}
-	if signers.Contains(id) {
+	for _,party := range ids {
+		if !signers.Contains(party) {
+			fmt.Println("Remove ", party)
+			n.Quit(party)
+		}
+	} 
+	if signers.Contains(id){
 		tweak := []byte{0,1}
 		h, err = protocol.NewMultiHandler(SignTaprootWithTweak(c0Taproot, signers, message, tweak), nil)
 		//h, err = protocol.NewMultiHandler(SignTaproot(c0Taproot, signers, message), nil)
@@ -87,26 +93,7 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	 	public := []byte(c0Taproot.PublicKey)
 	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
 	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
-	 //    public := []byte(c0Taproot.PublicKey)
-	 //    group := curve.Secp256k1{}
-	 //    s_tweak := group.NewScalar().SetNat(new(safenum.Nat).SetBytes(tweak))
-	 //    p_tweak := s_tweak.ActOnBase()
-
-	 //    P, err := curve.Secp256k1{}.LiftX(public)
-	 //    require.NoError(t, err, "failed to process public key")
-
-	 //    Y_tweak := P.Add(p_tweak)
-	 //    YSecp := Y_tweak.(*curve.Secp256k1Point)
-	 //    if !YSecp.HasEvenY() {
-	 //        s_tweak.Negate()
-	 //        p_tweak := s_tweak.ActOnBase()
-	 //        Y_tweak = P.Negate().Add(p_tweak)
-	 //        YSecp = Y_tweak.(*curve.Secp256k1Point)
-	 //    }
-	 //    PBytes := taproot.PublicKey(YSecp.XBytes())
-		// assert.True(t, PBytes.Verify(taprootSignature, message))
-	} else {n.Quit(id)}
-
+	}
 }
 func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
     group := curve.Secp256k1{}
@@ -132,10 +119,10 @@ func TestFrost(t *testing.T) {
 	T := N - 2
 	message := []byte("hello")
 
-	// partyIDs := test.PartyIDs(N)
-	// fmt.Println(partyIDs)
+	//partyIDs := test.PartyIDs(N)
+	//fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "f"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 
@@ -145,4 +132,5 @@ func TestFrost(t *testing.T) {
 		go do(t, id, partyIDs, T, message, n, &wg)
 	}
 	wg.Wait()
+
 }

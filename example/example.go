@@ -160,8 +160,9 @@ func FrostKeygenTaproot(id party.ID, ids party.IDSlice, threshold int, n *test.N
 
 	return r.(*frost.TaprootConfig), nil
 }
-func FrostSignTaproot(c *frost.TaprootConfig, id party.ID, m []byte, signers party.IDSlice, n *test.Network) error {
-	h, err := protocol.NewMultiHandler(frost.SignTaproot(c, signers, m), nil)
+func FrostSignTaprootWithTweak(c *frost.TaprootConfig, id party.ID, m []byte, signers party.IDSlice, n *test.Network) error {
+	tweak := []byte{0,1}
+	h, err := protocol.NewMultiHandler(frost.SignTaprootWithTweak(c, signers, m,tweak), nil)
 	if err != nil {
 		return err
 	}
@@ -247,7 +248,7 @@ func All(id party.ID, ids party.IDSlice, threshold int, message []byte, n *test.
 	// }
 
 	//FROST SIGN TAPROOT
-	err = FrostSignTaproot(frostResultTaproot, id, message, signers, n)
+	err = FrostSignTaprootWithTweak(frostResultTaproot, id, message, signers, n)
 	if err != nil {
 		return err
 	}
