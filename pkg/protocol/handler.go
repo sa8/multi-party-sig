@@ -178,12 +178,11 @@ func (h *MultiHandler) TimeOutExpired() {
 	t1 := r.StartTime()
 	t2 := time.Now()
 	number := r.Number()
+	if number == 0 {return}
 	//fmt.Println("t1: ", t1, number)
 	if  t2.Sub(t1) < timeOut {
 		return 
 	}
-	fmt.Println("timeOutDone round: ", r.Number())
-	//fmt.Println("time start time for that round",t1)
 	fmt.Println("time out done for round:", number)
 
 	h.timeOutFinalize()
@@ -497,8 +496,6 @@ func (h *MultiHandler) timeOutDone() bool {
 	if  t2.Sub(t1) < timeOut {
 		return false
 	}
-	fmt.Println("timeOutDone round: ", r.Number())
-	//fmt.Println("time start time for that round",t1)
 	fmt.Println("time out done for round:", number)
 	return true
 }
