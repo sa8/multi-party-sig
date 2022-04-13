@@ -83,16 +83,26 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
     //r.startTime = time.Now()
     fmt.Println("Starting round 3", r.SelfID())
     // 4. "Every Pᵢ broadcasts its complaints
+    
+    //check for missing shares here (i.e. players that aborted)
+    for _,party := range(r.PartyIDs()){
+        if _, ok := r.ShareFrom[party]; !ok {
+            for _, check := range r.Mps{
+                if check.Id == party { 
+                    break
+                } else {r.Mps = append(r.Mps,Complaint{Id: party, Value: r.Group().NewScalar()})}
+            }
+            
+        }
+    }
+
     fmt.Println("Complaints, round 3:", r.Mps)
-    // fmt.Println(reflect.TypeOf(r.Mps))
-    // if len(r.Mps) >0 {fmt.Println(reflect.TypeOf(r.Mps[0].Value))}
-    // complaintsRound4 := make(map[party.ID]*curve.Scalar)
-    // for _, c := range r.Mps {
-    //     complaintsRound4[c.Id] = &c.Value
-    // }
-    complaintsRound4 := []string{""}
+    complaintsRound4 := make([]string,0)
     if len(r.Mps) >0 {
-        complaintsRound4 = []string{string(r.Mps[0].Id)}
+        for i,_ := range r.Mps{
+            complaintsRound4 = append(complaintsRound4,string(r.Mps[i].Id))
+        }
+        //complaintsRound4 = []string{string(r.Mps[0].Id)}
     } 
 
     err := r.BroadcastMessage(out, &broadcast4{ComplaintsRound4: complaintsRound4})

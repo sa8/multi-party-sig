@@ -48,9 +48,6 @@ func (r *round4) StoreBroadcastMessage(msg round.Message) error {
 		return round.ErrInvalidContent
 	}
 
-    // fmt.Println("Body complaints, round 4: ", body.ComplaintsRound4, "from", from, "myself", r.SelfID())
-    // fmt.Println("Complaints map: ", r.Complaints)
-
     for _, c := range body.ComplaintsRound4{
         if c == string(r.SelfID()) && r.SelfID() != "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"{
             r.Proofs = append(r.Proofs,proof{id: from, value: r.F_i.Evaluate(from.Scalar(r.Group()))})
@@ -86,8 +83,10 @@ func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
     r.startTime = time.Now()
     // 4. "Every Pᵢ broadcasts phi_i
     //fmt.Println("Starting round 4", r.SelfID(), "complaints", r.Complaints)
-    
-    if r.SelfID()!= "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" && r.SelfID()!= "abort"{
+
+
+    //if r.SelfID()!= "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" && r.SelfID()!= "abort"{
+    if r.SelfID()!= "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" {
         err := r.BroadcastMessage(out, &broadcast5{
             proofs: r.Proofs,
             //Complaints: r.Complaints,

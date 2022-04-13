@@ -130,6 +130,7 @@ func TestFrost(t *testing.T) {
 	wg.Add(N)
 	for _, id := range partyIDs {
 		go do(t, id, partyIDs, T, message, n, &wg)
+
 	}
 	wg.Wait()
 

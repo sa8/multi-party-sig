@@ -102,6 +102,7 @@ func (r *round5) Finalize(chan<- *round.Message) (round.Session, error) {
 		panic(err)
 	}
 	for k, v := range r.verificationShares {
+		// check if party is aborting or cheating
 		if r.Complaints[k] == ""{
 			r.verificationShares[k] = v.Add(verificationExponent.Evaluate(k.Scalar(r.Group())))
 		} else {
@@ -156,7 +157,7 @@ func (broadcast5) RoundNumber() round.Number { return 5 }
 // BroadcastContent implements round.BroadcastRound.
 func (r *round5) BroadcastContent() round.BroadcastContent {
     return &broadcast5{
-    		proofs: make([]proof,1),
+    		proofs: make([]proof,0),
     }
 }
 
