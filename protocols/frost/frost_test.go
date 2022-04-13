@@ -129,7 +129,9 @@ func TestFrost(t *testing.T) {
 	var wg sync.WaitGroup
 	wg.Add(N)
 	for _, id := range partyIDs {
-		go do(t, id, partyIDs, T, message, n, &wg)
+		//if id != party.ID("abort"){
+			go do(t, id, partyIDs, T, message, n, &wg)
+		//}
 
 	}
 	wg.Wait()

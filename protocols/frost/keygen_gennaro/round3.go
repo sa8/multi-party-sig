@@ -77,7 +77,15 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 func (r *round3) VerifyMessage(msg round.Message) error {
 	return nil
 }
+func  isIncluded(party party.ID, mps []Complaint) bool {
+    for _, check := range mps{
+        if check.Id == party { 
+            return true
+        }
+    }
+    return false
 
+}
 // Finalize implements round.Round.
 func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
     //r.startTime = time.Now()
@@ -87,12 +95,7 @@ func (r *round3) Finalize(out chan<- *round.Message) (round.Session, error) {
     //check for missing shares here (i.e. players that aborted)
     for _,party := range(r.PartyIDs()){
         if _, ok := r.ShareFrom[party]; !ok {
-            for _, check := range r.Mps{
-                if check.Id == party { 
-                    break
-                } else {r.Mps = append(r.Mps,Complaint{Id: party, Value: r.Group().NewScalar()})}
-            }
-            
+            if !isIncluded(party, r.Mps){r.Mps = append(r.Mps,Complaint{Id: party, Value: r.Group().NewScalar()}) }        
         }
     }
 
