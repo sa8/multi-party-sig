@@ -2,7 +2,6 @@ package sign_with_tweak
 
 import (
 	"crypto/rand"
-	"time"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -46,7 +45,6 @@ type round1 struct {
 	YShares map[party.ID]curve.Point
 	// s_i = sᵢ is our private secret share
 	s_i curve.Scalar
-	startTime time.Time
 }
 
 // VerifyMessage implements round.Round.
@@ -95,14 +93,12 @@ func (r *round1) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if err != nil {
 		return r, err
 	}
-	startTime := time.Now()
 	return &round2{
 		round1: r,
 		d_i:    d_i,
 		e_i:    e_i,
 		D:      map[party.ID]curve.Point{r.SelfID(): D_i},
 		E:      map[party.ID]curve.Point{r.SelfID(): E_i},
-		startTime: startTime,
 	}, nil
 }
 
@@ -111,5 +107,3 @@ func (round1) MessageContent() round.Content { return nil }
 
 // Number implements round.Round.
 func (round1) Number() round.Number { return 1 }
-
-func (r *round1) StartTime() time.Time {return r.startTime}

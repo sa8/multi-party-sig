@@ -2,7 +2,6 @@ package sign_with_tweak
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/cronokirby/safenum"
 	"github.com/sa8/multi-party-sig/internal/round"
@@ -34,8 +33,6 @@ type round2 struct {
 	D map[party.ID]curve.Point
 	// E[i] = Eᵢ will contain all of the commitments created by each party, ourself included.
 	E map[party.ID]curve.Point
-	startTime time.Time
-
 }
 
 type broadcast2 struct {
@@ -190,7 +187,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	if err != nil {
 		return r, err
 	}
-	startTime := time.Now()
+
 	return &round3{
 		round2:  r,
 		R:       R,
@@ -201,7 +198,6 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		s_tweak: s_tweak,
 		Y_tweak : Y_tweak,
 		flipped: flipped,
-		startTime: startTime,
 	}, nil
 }
 
@@ -221,5 +217,3 @@ func (r *round2) BroadcastContent() round.BroadcastContent {
 
 // Number implements round.Round.
 func (round2) Number() round.Number { return 2 }
-func (r *round2) StartTime() time.Time {return r.startTime}
-
