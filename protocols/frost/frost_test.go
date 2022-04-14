@@ -67,20 +67,21 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	// require.IsType(t, Signature{}, signResult)
 	// signature := signResult.(Signature)
 	// assert.True(t, signature.Verify(c.PublicKey, message))
-	signers := party.IDSlice{"a", "b", "c", "d", "e"}
-	for _,party := range ids {
-		if !signers.Contains(party) {
-			fmt.Println("Remove ", party)
-			n.Quit(party)
-		}
-	} 
-	if signers.Contains(id){
+	signers := party.IDSlice{"a", "b", "c", "d", "e","f"}
+	trueSigners  := party.IDSlice{"a", "b", "c", "d", "e"}
+	// for _,party := range ids {
+	// 	if !trueSigners.Contains(party) {
+	// 		fmt.Println("Remove ", party)
+	// 		n.Quit(party)
+	// 	}
+	// } 
+	if trueSigners.Contains(id){
 		tweak := []byte{0,1}
 		h, err = protocol.NewMultiHandler(SignTaprootWithTweak(c0Taproot, signers, message, tweak), nil)
 		//h, err = protocol.NewMultiHandler(SignTaproot(c0Taproot, signers, message), nil)
 		require.NoError(t, err)
 
-		test.HandlerLoop(id, h, n)
+		test.HandlerLoopKeyGen(id, h, n)
 
 		signResult, err := h.Result()
 		fmt.Println("signing result:", signResult)
@@ -122,7 +123,7 @@ func TestFrost(t *testing.T) {
 	//partyIDs := test.PartyIDs(N)
 	//fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "abort"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "f"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 

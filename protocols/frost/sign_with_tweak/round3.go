@@ -2,6 +2,7 @@ package sign_with_tweak
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/sa8/multi-party-sig/internal/round"
 	"github.com/sa8/multi-party-sig/pkg/math/curve"
@@ -39,6 +40,8 @@ type round3 struct {
 	Y_tweak curve.Point
 	//did we flip the tweaked_pubkey??
 	flipped bool
+	startTime time.Time
+
 }
 
 type broadcast3 struct {
@@ -106,7 +109,6 @@ func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
     }
     //add tweak to signature
     z.Add(r.s_tweak)
-
 	// The format of our signature depends on using taproot, naturally
 	if r.taproot {
 		sig := taproot.Signature(make([]byte, 0, taproot.SignatureLen))
@@ -152,3 +154,4 @@ func (r *round3) BroadcastContent() round.BroadcastContent {
 
 // Number implements round.Round.
 func (round3) Number() round.Number { return 3 }
+func (r *round3) StartTime() time.Time {return r.startTime}
