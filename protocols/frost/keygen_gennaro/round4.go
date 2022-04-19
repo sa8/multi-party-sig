@@ -49,7 +49,7 @@ func (r *round4) StoreBroadcastMessage(msg round.Message) error {
 	}
 
     for _, c := range body.ComplaintsRound4{
-        if c == string(r.SelfID()) && r.SelfID() != "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm"{
+        if c == string(r.SelfID()) && r.SelfID() != "cheater"{
             r.Proofs = append(r.Proofs,proof{id: from, value: r.F_i.Evaluate(from.Scalar(r.Group()))})
         } else {
             //r.Complaints = append(r.Complaints, party.ID(c))
@@ -86,7 +86,7 @@ func (r *round4) Finalize(out chan<- *round.Message) (round.Session, error) {
 
 
     //if r.SelfID()!= "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" && r.SelfID()!= "abort"{
-    if r.SelfID()!= "12D3KooWSpyoi7KghH98SWDfDFMyAwuvtP8MWWGDcC1e1uHWzjSm" {
+    if r.SelfID()!= "cheater" {
         err := r.BroadcastMessage(out, &broadcast5{
             proofs: r.Proofs,
             //Complaints: r.Complaints,
