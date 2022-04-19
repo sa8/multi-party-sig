@@ -72,6 +72,8 @@ func (r *round2) StoreBroadcastMessage(msg round.Message) error {
 
 	r.D[msg.From] = body.D_i
 	r.E[msg.From] = body.E_i
+
+
 	return nil
 }
 
@@ -93,6 +95,28 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// state after H(m, B), instead of rehashing them each time.
 	//
 	// We also use a hash of the message, instead of the message directly.
+
+	// First we need to verify that all messages were received from round1
+	// if not we abort with the names of the culprit
+
+	//TODO:
+	abortingPlayers := make([]party.ID,0)
+	//abortingPlayers := ...party.ID
+	for _, l := range r.PartyIDs(){
+		if _, ok :=r.D[l]; !ok{
+			abortingPlayers = append(abortingPlayers,l)
+		}
+		if _, ok :=r.E[l]; !ok{
+			abortingPlayers = append(abortingPlayers,l)
+		}
+
+	}
+	if len(abortingPlayers)>0{
+		fmt.Println("Aborting")
+		return r.AbortRound(fmt.Errorf("Aborting because of aborting players: "), abortingPlayers...), nil
+	}
+
+
 
 	rho := make(map[party.ID]curve.Scalar)
 	// This calculates H(m, B), allowing us to avoid re-hashing this data for

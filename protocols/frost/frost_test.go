@@ -85,6 +85,9 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 
 		signResult, err := h.Result()
 		fmt.Println("signing result:", signResult)
+		//abortResult, err := h.Abort
+		fmt.Println("err result:", err)
+
 		require.NoError(t, err)
 		require.IsType(t, taproot.Signature{}, signResult)
 		taprootSignature := signResult.(taproot.Signature)
@@ -94,6 +97,8 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	 	public := []byte(c0Taproot.PublicKey)
 	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
 	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
+	} else {
+		n.Quit(id)
 	}
 }
 func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
