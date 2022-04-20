@@ -21,9 +21,13 @@ func (e Error) Error() string {
 		return e.Err.Error()
 	}
 	return fmt.Sprintf("culprits: %v: %s", e.Culprits, e.Err)
+	//return fmt.Sprintf("%v",e.Culprits)
 }
 
 // Unwrap implement errors.Wrapper.
 func (e Error) Unwrap() error {
 	return e.Err
 }
+
+
+
