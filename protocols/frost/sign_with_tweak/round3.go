@@ -99,6 +99,23 @@ func (round3) StoreMessage(round.Message) error { return nil }
 func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	// These steps come from Figure 3 of the Frost paper.
 
+	// check for aborting players
+	abortingPlayers := make([]party.ID,0)
+	//abortingPlayers := ...party.ID
+	for _, l := range r.PartyIDs(){
+		if _, ok :=r.z[l]; !ok{
+			abortingPlayers = append(abortingPlayers,l)
+		} 
+
+	}
+	if len(abortingPlayers)>0{
+		fmt.Println("Aborting round 3", r.SelfID(), abortingPlayers)
+		//we sleep before aborting to let the them to ther players of finfin the aborting
+		// players as well 
+		time.Sleep(2 * time.Second)
+		return r.AbortRound(fmt.Errorf("Aborting round 3 because of aborting players."), abortingPlayers...), nil
+	}
+
 	// 7.c "Compute the group's response z = ∑ᵢ zᵢ"
 	z := r.Group().NewScalar()
 	for _, z_l := range r.z {

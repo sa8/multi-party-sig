@@ -105,15 +105,17 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	for _, l := range r.PartyIDs(){
 		if _, ok :=r.D[l]; !ok{
 			abortingPlayers = append(abortingPlayers,l)
-		}
-		if _, ok :=r.E[l]; !ok{
+		} else if _, ok :=r.E[l]; !ok{
 			abortingPlayers = append(abortingPlayers,l)
 		}
 
 	}
 	if len(abortingPlayers)>0{
-		fmt.Println("Aborting")
-		return r.AbortRound(fmt.Errorf("Aborting because of aborting players: "), abortingPlayers...), nil
+		fmt.Println("Aborting round 2", r.SelfID(), abortingPlayers)
+		//we sleep before aborting to let the them to ther players of finfin the aborting
+		// players as well 
+		time.Sleep(2 * time.Second)
+		return r.AbortRound(fmt.Errorf("Aborting round 2 because of aborting players."), abortingPlayers...), nil
 	}
 
 
@@ -210,9 +212,11 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// TODO: Securely delete the nonces.
 
 	// Broadcast our response
-	err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
-	if err != nil {
-		return r, err
+	if r.SelfID() != "aborting-signer"{
+		err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
+		if err != nil {
+			return r, err
+		}
 	}
 	startTime := time.Now()
 	return &round3{

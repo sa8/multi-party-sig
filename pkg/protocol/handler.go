@@ -13,7 +13,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
-var timeOut = (time.Second) * 3
+var timeOut = (time.Second) * 4
 
 // StartFunc is function that creates the first round of a protocol.
 // It returns the first round initialized with the session information.
@@ -149,6 +149,7 @@ func (h *MultiHandler) Accept(msg *Message) {
 	// a msg with roundNumber 0 is considered an abort from another party
 	if msg.RoundNumber == 0 {
 		h.abort(fmt.Errorf("aborted by other party with error: \"%s\"", msg.Data), msg.From)
+		fmt.Println("message: ", string(msg.Data))
 		return
 	}
 

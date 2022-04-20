@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/cronokirby/safenum"
 	"github.com/stretchr/testify/assert"
@@ -67,15 +68,17 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	// require.IsType(t, Signature{}, signResult)
 	// signature := signResult.(Signature)
 	// assert.True(t, signature.Verify(c.PublicKey, message))
-	signers := party.IDSlice{"a", "b", "c", "d", "e","f"}
-	trueSigners  := party.IDSlice{"a", "b", "c", "d", "e"}
+	signers := party.IDSlice{"e", "b", "c", "d", "a","aborting-signer"}
+	//trueSigners  := party.IDSlice{"a", "b", "c", "d", "e", "aborting-signer"}
 	// for _,party := range ids {
 	// 	if !trueSigners.Contains(party) {
 	// 		fmt.Println("Remove ", party)
 	// 		n.Quit(party)
 	// 	}
 	// } 
-	if trueSigners.Contains(id){
+	//if signers.Contains(id){
+		fmt.Println("Singer id: ", id)
+		time.Sleep(3 * time.Second)
 		tweak := []byte{0,1}
 		h, err = protocol.NewMultiHandler(SignTaprootWithTweak(c0Taproot, signers, message, tweak), nil)
 		//h, err = protocol.NewMultiHandler(SignTaproot(c0Taproot, signers, message), nil)
@@ -86,7 +89,7 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 		signResult, err := h.Result()
 		fmt.Println("signing result:", signResult)
 		//abortResult, err := h.Abort
-		fmt.Println("err result:", err)
+		fmt.Println("error result:",id, err)
 
 		require.NoError(t, err)
 		require.IsType(t, taproot.Signature{}, signResult)
@@ -97,9 +100,9 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	 	public := []byte(c0Taproot.PublicKey)
 	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
 	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
-	} else {
-		n.Quit(id)
-	}
+	// } else {
+	// 	n.Quit(id)
+	// }
 }
 func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
     group := curve.Secp256k1{}
@@ -128,7 +131,7 @@ func TestFrost(t *testing.T) {
 	//partyIDs := test.PartyIDs(N)
 	//fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "f"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "e", "aborting-signer"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 
