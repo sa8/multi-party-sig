@@ -70,16 +70,16 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	// require.IsType(t, Signature{}, signResult)
 	// signature := signResult.(Signature)
 	// assert.True(t, signature.Verify(c.PublicKey, message))
-	signers := party.IDSlice{"a", "b", "c", "d", "eeee12", "ffff58"}
-	trueSigners  := party.IDSlice{"a", "b", "c", "d"}
+	signers := party.IDSlice{"a", "b", "c", "d", "eeee12", "cheater-sign"}
+	//trueSigners  := party.IDSlice{"a", "b", "c", "d","eeee12", "cheater-sign"}
 	// for _,party := range ids {
 	// 	if !trueSigners.Contains(party) {
 	// 		fmt.Println("Remove ", party)
 	// 		n.Quit(party)
 	// 	}
 	// } 
-	if trueSigners.Contains(id){
-		fmt.Println("Singer id: ", id)
+//	if trueSigners.Contains(id){
+		fmt.Println("Signer id: ", id)
 		time.Sleep(3 * time.Second)
 		tweak := []byte{0,1}
 		h, err = protocol.NewMultiHandler(SignTaprootWithTweak(c0Taproot, signers, message, tweak), nil)
@@ -94,12 +94,15 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 		fmt.Println("error result:",id, err)
 		if err != nil {
 			strErr := err.Error()
-			i := strings.Index(strErr, "]")
-			culprits := strErr[11:i]
-			s := strings.Split(culprits, " ")
-			fmt.Println("culprits: ",s )
-			for _, i := range(s){ fmt.Println(i)}
-
+			if strErr[:8] == "culprits" {
+				i := strings.Index(strErr, "]")
+				culprits := strErr[11:i]
+				s := strings.Split(culprits, " ")
+				fmt.Println("culprits: ",s )
+				if len(s)>0 {
+					for _, i := range(s){ fmt.Println(i)}
+				}
+			}
 		}
 
 		require.NoError(t, err)
@@ -111,9 +114,10 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	 	public := []byte(c0Taproot.PublicKey)
 	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
 	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
-	} else {
-		n.Quit(id)
-	}
+	// } 
+	// else {
+	// 	n.Quit(id)
+	// }
 }
 func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
     group := curve.Secp256k1{}
@@ -142,7 +146,7 @@ func TestFrost(t *testing.T) {
 	//partyIDs := test.PartyIDs(N)
 	//fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "eeee12", "ffff58"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "eeee12", "cheater-sign"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 

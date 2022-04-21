@@ -42,6 +42,9 @@ type round3 struct {
 	flipped bool
 	startTime time.Time
 
+	//list of players who send wrong share
+	cheatingPlayers []party.ID
+
 }
 
 type broadcast3 struct {
@@ -57,10 +60,11 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 	if !ok || body == nil {
 		return round.ErrInvalidContent
 	}
-
 	// check nil
 	if body.Z_i == nil {
-		return round.ErrNilFields
+		r.cheatingPlayers = append(r.cheatingPlayers, from)
+		//return round.ErrNilFields
+		return nil
 	}
 
 	// These steps come from Figure 3 of the Frost paper.
@@ -81,10 +85,13 @@ func (r *round3) StoreBroadcastMessage(msg round.Message) error {
 	actual := body.Z_i.ActOnBase()
 
 	if !actual.Equal(expected) {
-		return fmt.Errorf("failed to verify response from %v", from)
+		r.cheatingPlayers = append(r.cheatingPlayers, from)
+		//return fmt.Errorf("failed to verify response from %v", from)
+		return nil
 	}
 
 	r.z[from] = body.Z_i
+
 
 	return nil
 }
@@ -98,6 +105,15 @@ func (round3) StoreMessage(round.Message) error { return nil }
 // Finalize implements round.Round.
 func (r *round3) Finalize(chan<- *round.Message) (round.Session, error) {
 	// These steps come from Figure 3 of the Frost paper.
+	if len(r.cheatingPlayers)>0{
+		fmt.Println("Aborting round 3", r.SelfID(), r.cheatingPlayers)
+		//we sleep before aborting to let the them to ther players of finfin the aborting
+		// players as well 
+		time.Sleep(2 * time.Second)
+		return r.AbortRound(fmt.Errorf("Aborting round 3 because of cheating players."), r.cheatingPlayers...), nil
+
+	}
+
 
 	// check for aborting players
 	abortingPlayers := make([]party.ID,0)

@@ -158,9 +158,17 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// TODO: Securely delete the nonces.
 
 	// Broadcast our response
-	err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
-	if err != nil {
-		return r, err
+	if r.SelfID() == "cheater-sign"{
+		fmt.Println("Cheating player")
+		err := r.BroadcastMessage(out, &broadcast3{Z_i: nil})
+		if err != nil {
+			return r, err
+		}
+	} else {
+		err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
+		if err != nil {
+			return r, err
+		}
 	}
 	fmt.Println("Finished round2 ", r.SelfID())
 	return &round3{

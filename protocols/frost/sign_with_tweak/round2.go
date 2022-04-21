@@ -212,7 +212,14 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 	// TODO: Securely delete the nonces.
 
 	// Broadcast our response
-	if r.SelfID() != "aborting-signer"{
+	if r.SelfID() == "cheater-sign"{
+		fmt.Println("Cheating player")
+		z_i.Add(ed)
+		err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
+		if err != nil {
+			return r, err
+		}
+	} else {
 		err := r.BroadcastMessage(out, &broadcast3{Z_i: z_i})
 		if err != nil {
 			return r, err
@@ -230,6 +237,7 @@ func (r *round2) Finalize(out chan<- *round.Message) (round.Session, error) {
 		Y_tweak : Y_tweak,
 		flipped: flipped,
 		startTime: startTime,
+		cheatingPlayers: make([]party.ID,0),
 	}, nil
 }
 
