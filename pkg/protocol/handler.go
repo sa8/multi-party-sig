@@ -101,6 +101,7 @@ func (h *MultiHandler) CanAccept(msg *Message) bool {
 	}
 	// are we the intended recipient
 	if !msg.IsFor(r.SelfID()) {
+		fmt.Println("This message is not for me.")
 		return false
 	}
 	// is the protocol ID correct
@@ -109,24 +110,29 @@ func (h *MultiHandler) CanAccept(msg *Message) bool {
 	}
 	// check for same SSID
 	if !bytes.Equal(msg.SSID, r.SSID()) {
+		fmt.Println("This message has the wrong SSID.")
 		return false
 	}
 	// do we know the sender
 	if !r.PartyIDs().Contains(msg.From) {
+		fmt.Println("This message comes from a sender I do not know.")
 		return false
 	}
 
 	// data is cannot be nil
 	if msg.Data == nil {
+		fmt.Println("This message is nil.")
 		return false
 	}
 
 	// check if message for unexpected round
 	if msg.RoundNumber > r.FinalRoundNumber() {
+		fmt.Println("This message has unexpected round number.")
 		return false
 	}
 
 	if msg.RoundNumber < r.Number() && msg.RoundNumber > 0 {
+		fmt.Println("This message has unexpected round number.")
 		return false
 	}
 
