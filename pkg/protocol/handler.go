@@ -110,7 +110,7 @@ func (h *MultiHandler) CanAccept(msg *Message) bool {
 	}
 	// check for same SSID
 	if !bytes.Equal(msg.SSID, r.SSID()) {
-		fmt.Println("This message has the wrong SSID.")
+		fmt.Println("This message has the wrong SSID. Msg SSID: ",msg.SSID," Protocol SSID: ", r.SSID())
 		return false
 	}
 	// do we know the sender
