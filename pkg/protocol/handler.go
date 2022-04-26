@@ -36,6 +36,8 @@ type Handler interface {
 	Accept(msg *Message)
 	// timeoutExpired checks if you have expired our time out for this round and move to the next round if so
 	TimeOutExpired()
+	// CanAcceptLibp2 checks whether or not a message can be accepted at the current point in the protocol.
+	CanAcceptLibp2p(msg *Message) bool
 }
 
 // MultiHandler represents an execution of a given protocol.
@@ -139,7 +141,7 @@ func (h *MultiHandler) CanAccept(msg *Message) bool {
 	return true
 }
 
-func (h *MultiHandler) CanAcceptLibp2p2(msg *Message) bool {
+func (h *MultiHandler) CanAcceptLibp2p(msg *Message) bool {
 	r := h.currentRound
 	if msg == nil {
 		return false
