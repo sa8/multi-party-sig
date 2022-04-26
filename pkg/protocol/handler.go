@@ -139,6 +139,51 @@ func (h *MultiHandler) CanAccept(msg *Message) bool {
 	return true
 }
 
+func (h *MultiHandler) CanAcceptLibp2p2(msg *Message) bool {
+	r := h.currentRound
+	if msg == nil {
+		return false
+	}
+	// are we the intended recipient
+	if !(msg.To == "" || msg.To == r.SelfID()) {
+		fmt.Println("This message is not for me.")
+		return false
+	}
+	// is the protocol ID correct
+	if msg.Protocol != r.ProtocolID() {
+		return false
+	}
+	// check for same SSID
+	if !bytes.Equal(msg.SSID, r.SSID()) {
+		fmt.Println("This message has the wrong SSID. Msg SSID: ",msg.SSID," Protocol SSID: ", r.SSID())
+		return false
+	}
+	// do we know the sender
+	if !r.PartyIDs().Contains(msg.From) {
+		fmt.Println("This message comes from a sender I do not know.")
+		return false
+	}
+
+	// data is cannot be nil
+	if msg.Data == nil {
+		fmt.Println("This message is nil.")
+		return false
+	}
+
+	// check if message for unexpected round
+	if msg.RoundNumber > r.FinalRoundNumber() {
+		fmt.Println("This message has unexpected round number.")
+		return false
+	}
+
+	if msg.RoundNumber < r.Number() && msg.RoundNumber > 0 {
+		fmt.Println("This message has unexpected round number.")
+		return false
+	}
+
+	return true
+}
+
 // Accept tries to process the given message. If an abort occurs, the channel returned by Listen() is closed,
 // and an error is returned by Result().
 //
