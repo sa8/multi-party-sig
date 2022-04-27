@@ -13,7 +13,7 @@ import (
 	"github.com/sa8/multi-party-sig/pkg/party"
 )
 
-var timeOut = (time.Second) * 8
+var timeOut = (time.Second) * 10
 
 // StartFunc is function that creates the first round of a protocol.
 // It returns the first round initialized with the session information.
