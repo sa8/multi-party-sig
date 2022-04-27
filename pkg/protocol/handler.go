@@ -146,11 +146,6 @@ func (h *MultiHandler) CanAcceptLibp2p(msg *Message) bool {
 	if msg == nil {
 		return false
 	}
-	// are we the intended recipient
-	if !(msg.To == "" || msg.To == r.SelfID()) {
-		fmt.Println("This message is not for me.")
-		return false
-	}
 	// is the protocol ID correct
 	if msg.Protocol != r.ProtocolID() {
 		return false
