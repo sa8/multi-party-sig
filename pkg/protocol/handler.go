@@ -98,8 +98,6 @@ func (h *MultiHandler) Listen() <-chan *Message {
 // CanAccept returns true if the message is designated for this protocol protocol execution.
 func (h *MultiHandler) CanAccept(msg *Message) bool {
 	r := h.currentRound
-	fmt.Println("Can accept round:", r.Number())
-	fmt.Println("message round number: ", msg.RoundNumber)
 	if msg == nil {
 		return false
 	}
