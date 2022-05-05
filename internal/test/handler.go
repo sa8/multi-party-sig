@@ -14,7 +14,7 @@ func HandlerLoopKeyGen(id party.ID, h protocol.Handler, network *Network) {
 
 		// outgoing messages
 		case msg, ok := <-h.Listen():
-			fmt.Println("Outgoing message:", msg)
+			//fmt.Println("Outgoing message:", msg)
 			if !ok {
 				<-network.Done(id)
 				// the channel was closed, indicating that the protocol is done executing.
@@ -24,6 +24,7 @@ func HandlerLoopKeyGen(id party.ID, h protocol.Handler, network *Network) {
 
 		// incoming messages
 		case msg := <-network.Next(id):
+			//fmt.Println("Incoming message: ", msg)
 			h.Accept(msg)
 
 		// timeout case

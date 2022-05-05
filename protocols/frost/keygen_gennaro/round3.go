@@ -1,4 +1,4 @@
-package keygen_gennaro
+ package keygen_gennaro
 
 import (
 	"fmt"
@@ -141,3 +141,7 @@ func (r *round3) BroadcastContent() round.BroadcastContent {
 func (round3) Number() round.Number { return 3 }
 
 func (r *round3) StartTime() time.Time {return r.startTime}
+
+
+// MessageContent implements round.Round.
+func (round3) MessageContent() round.Content { return nil }

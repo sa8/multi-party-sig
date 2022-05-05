@@ -70,15 +70,15 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	// require.IsType(t, Signature{}, signResult)
 	// signature := signResult.(Signature)
 	// assert.True(t, signature.Verify(c.PublicKey, message))
-	signers := party.IDSlice{"a", "b", "c", "d", "eeee12", "cheater-sign"}
-	//trueSigners  := party.IDSlice{"a", "b", "c", "d","eeee12", "cheater-sign"}
+	signers := party.IDSlice{"a", "b", "c", "d", "f"}
+	trueSigners  := party.IDSlice{"a", "b", "c", "d","f"}
 	// for _,party := range ids {
 	// 	if !trueSigners.Contains(party) {
 	// 		fmt.Println("Remove ", party)
 	// 		n.Quit(party)
 	// 	}
 	// } 
-//	if trueSigners.Contains(id){
+	if trueSigners.Contains(id){
 		fmt.Println("Signer id: ", id)
 		time.Sleep(3 * time.Second)
 		tweak := []byte{0,1}
@@ -114,10 +114,10 @@ func do(t *testing.T, id party.ID, ids []party.ID, threshold int, message []byte
 	 	public := []byte(c0Taproot.PublicKey)
 	 	tweakedKey := taproot.PublicKey(apply_tweak_to_publicKeyTaproot(t, public, tweak))
 	 	assert.True(t, tweakedKey.Verify(taprootSignature, message))
-	// } 
-	// else {
-	// 	n.Quit(id)
-	// }
+	} 
+	else {
+		n.Quit(id)
+	}
 }
 func apply_tweak_to_publicKeyTaproot(t *testing.T, public []byte, tweak []byte) []byte{
     group := curve.Secp256k1{}
@@ -146,7 +146,7 @@ func TestFrost(t *testing.T) {
 	//partyIDs := test.PartyIDs(N)
 	//fmt.Println(partyIDs)
 
-	partyIDs := party.IDSlice{"a", "b", "c", "d", "eeee12", "cheater-sign"}
+	partyIDs := party.IDSlice{"a", "b", "c", "d", "cheater", "f"}
 	fmt.Println(partyIDs)
 	n := test.NewNetwork(partyIDs)
 
